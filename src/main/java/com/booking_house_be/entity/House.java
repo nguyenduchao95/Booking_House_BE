@@ -13,8 +13,12 @@ public class House {
     private String address;
     private int bedroom;
     private int bathroom;
+    @Column(columnDefinition = "TEXT")
     private String description;
-    private double price;
+    @Column(columnDefinition = "TEXT")
+    private String facility;
+    private double oldPrice;
+    private double newPrice;
     private String thumbnail;
     private String status;
     private LocalDate createAt;

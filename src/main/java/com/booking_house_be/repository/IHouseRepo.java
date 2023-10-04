@@ -1,19 +1,18 @@
 package com.booking_house_be.repository;
-
 import com.booking_house_be.entity.House;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
     Page<House> findAllByOwnerId(int id, Pageable pageable);
 
-    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.price AS price, h.address AS address, " +
+    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, " +
             "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue, " +
             "CASE WHEN COUNT(b.id) = 0 THEN 'Đang trống' " +
             "     WHEN SUM(CASE WHEN b.status = 'CONFIRMED' THEN 1 ELSE 0 END) > 0 THEN 'Đang cho thuê' " +
@@ -31,12 +30,10 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         String getName();
         String getThumbnail();
 
-        double getPrice();
+        double getNewPrice();
 
         String getAddress();
-
         double getRevenue();
-
         String getStatus();
     }
 
