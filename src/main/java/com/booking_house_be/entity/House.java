@@ -1,7 +1,5 @@
 package com.booking_house_be.entity;
-
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -29,4 +27,5 @@ public class House {
     private Account owner;
     @ManyToOne
     private Category category;
+
 }
