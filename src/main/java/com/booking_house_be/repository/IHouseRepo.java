@@ -30,7 +30,7 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         String getName();
         String getThumbnail();
 
-        double getNewPrice();
+        double getPrice();
 
         String getAddress();
         double getRevenue();

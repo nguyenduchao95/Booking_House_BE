@@ -1,5 +1,4 @@
 package com.booking_house_be.controller;
-
 import com.booking_house_be.entity.House;
 import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.service.IHouseService;
