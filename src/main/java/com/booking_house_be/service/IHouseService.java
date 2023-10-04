@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface IHouseService {
     House findById(int id);
-
      Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId,Pageable pageable) ;
      Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) ;
      Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable) ;
