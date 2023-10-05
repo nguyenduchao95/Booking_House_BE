@@ -22,6 +22,7 @@ public class Account {
     // ảnh cmt xác thực làm chủ nhà
     @ManyToOne
     private Role role;
+    private String resetCode;
 
 
 }

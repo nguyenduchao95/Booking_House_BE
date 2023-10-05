@@ -37,6 +37,6 @@ public class AccountController {
     }
     @GetMapping("/{username}")
     public ResponseEntity<Account> getAccountByUserName(@PathVariable String username){
-        return new ResponseEntity<>(accountService.getAccountByUserName(username), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.getAccountByUsername(username), HttpStatus.OK);
     }
 }
