@@ -9,15 +9,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
-public interface IAccountService extends UserDetailsService{
+public interface IAccountService extends UserDetailsService {
 
     Account getById(int id);
 
     void edit(Account account);
 
     Optional<Account> getAccountById(int id);
+
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
     Account getAccountLogin(String username, String password);
+
     Account checkRegister(Account account);
+
     Account getAccountByUserName(String username);
 }
