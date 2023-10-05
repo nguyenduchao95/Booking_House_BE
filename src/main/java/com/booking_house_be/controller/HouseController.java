@@ -28,17 +28,17 @@ public class HouseController {
     }
 
 
-    @GetMapping("/search")
-    public Page<House> findByNameContaining(
-            @RequestParam("name") String name,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size) {
+//    @GetMapping("/search")
+//    public Page<House> findByNameContaining(
+//            @RequestParam("name") String name,
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "5") int size) {
+//
+//        Pageable pageable = PageRequest.of(page, size);
+//        return houseService.findByNameContaining(name, pageable);
+//    }
 
-        Pageable pageable = PageRequest.of(page, size);
-        return houseService.findByNameContaining(name, pageable);
-    }
-
-//    @GetMapping()
+//    @GetMapping("/searchByPrice")
 //    public Page<House> findHousesByPriceRange(
 //            @RequestParam(value = "page", defaultValue = "0") int page,
 //            @RequestParam(value = "size", defaultValue = "12") int size,
