@@ -21,6 +21,6 @@ public class ReviewService implements IReviewService {
     @Override
     public Double avgRating(int houseId) {
         Double avg = reviewRepo.avgRating(houseId);
-        return Math.round(avg * 10) / 10.0;
+        return avg == null ? 0.0 : Math.round(avg * 10) / 10.0;
     }
 }

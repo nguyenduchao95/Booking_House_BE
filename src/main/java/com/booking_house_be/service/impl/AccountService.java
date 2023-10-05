@@ -20,6 +20,15 @@ public class AccountService implements IAccountService {
     private IAccountRepo accountRepo;
 
     @Override
+    public Account getById(int id) {
+        return accountRepo.findById(id).get();
+    }
+
+    @Override
+    public void edit(Account account) {
+        accountRepo.save(account);
+    }
+    @Override
     public Optional<Account> getAccountById(int id) {
         return accountRepo.findById(id);
     }

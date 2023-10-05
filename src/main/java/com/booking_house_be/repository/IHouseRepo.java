@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
-import java.util.List;
-
 public interface IHouseRepo extends JpaRepository<House, Integer> {
     Page<House> findAllByOwnerId(int id, Pageable pageable);
 
