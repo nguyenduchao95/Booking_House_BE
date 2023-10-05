@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
-public interface IAccountService {
+public interface IAccountService extends UserDetailsService{
 
     Account getById(int id);
 
