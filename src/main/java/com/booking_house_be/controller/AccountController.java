@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AccountController {
     @Autowired
     private IAccountService accountService;
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public Account getById(@PathVariable int id) {
         return accountService.getById(id);
     }
