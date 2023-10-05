@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface IAccountRepo extends JpaRepository<Account,Integer> {
     Account findByUsername(String username);
+    Account findByEmail(String email);
     @Query(nativeQuery = true, value = "SELECT * FROM Account where username= :username and password= :password")
     Account getAccountLogin(@Param("username") String username, @Param("password") String password);
 

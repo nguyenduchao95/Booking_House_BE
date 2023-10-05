@@ -13,5 +13,7 @@ public interface IAccountService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
     Account getAccountLogin(String username, String password);
     Account checkRegister(Account account);
-    Account getAccountByUserName(String username);
+    Account getAccountByUsername(String username);
+    Account getAccountByEmail(String email);
+    void save(Account account);
 }

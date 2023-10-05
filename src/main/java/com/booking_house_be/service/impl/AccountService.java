@@ -1,4 +1,5 @@
 package com.booking_house_be.service.impl;
+
 import com.booking_house_be.entity.Account;
 import com.booking_house_be.repository.IAccountRepo;
 import com.booking_house_be.service.IAccountService;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccountService  implements IAccountService {
+public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepo accountRepo;
 
@@ -30,6 +31,7 @@ public class AccountService  implements IAccountService {
         roles.add(account.getRole());
         return new User(account.getUsername(), account.getPassword(), roles);
     }
+
     @Override
     public Account getAccountLogin(String username, String password) {
         return accountRepo.getAccountLogin(username, password);
@@ -46,7 +48,18 @@ public class AccountService  implements IAccountService {
     }
 
     @Override
-    public Account getAccountByUserName(String username) {
+    public Account getAccountByUsername(String username) {
         return accountRepo.findByUsername(username);
     }
+
+    @Override
+    public Account getAccountByEmail(String email) {
+        return accountRepo.findByEmail(email);
+    }
+
+    @Override
+    public void save(Account account) {
+        accountRepo.save(account);
+    }
+
 }
