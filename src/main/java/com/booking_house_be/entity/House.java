@@ -1,18 +1,25 @@
 package com.booking_house_be.entity;
 
+import com.booking_house_be.dto.HouseDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String address;
+    private String province;
+    private String district;
+    private String ward;
+    private String houseNumber;
     private int bedroom;
     private int bathroom;
     @Column(columnDefinition = "TEXT")
@@ -27,6 +34,23 @@ public class House {
     private LocalDate updateAt;
     @ManyToOne
     private Account owner;
-    @ManyToOne
-    private Category category;
+
+    public House(HouseDto houseDto){
+        this.name = houseDto.getName();
+        this.address = houseDto.getAddress();
+        this.province = houseDto.getProvince();
+        this.district = houseDto.getDistrict();
+        this.ward = houseDto.getWard();
+        this.houseNumber = houseDto.getHouseNumber();
+        this.bathroom = houseDto.getBathroom();
+        this.bedroom = houseDto.getBedroom();
+        this.description = houseDto.getDescription();
+        this.facility = houseDto.getFacility();
+        this.oldPrice = houseDto.getOldPrice();
+        this.newPrice = houseDto.getNewPrice();
+        this.thumbnail = houseDto.getThumbnail();
+        this.status = "ok";
+        this.createAt = LocalDate.now();
+        this.owner = houseDto.getOwner();
+    }
 }
