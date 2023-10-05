@@ -7,11 +7,12 @@ import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IImageRepo;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 public class HouseService implements IHouseService {
@@ -35,5 +36,20 @@ public class HouseService implements IHouseService {
             imageRepo.saveAll(imageList);
         }
         return house;
+    }
+
+    @Override
+    public Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId,Pageable pageable) {
+        return houseRepo.findHouseInfoByOwnerId(ownerId,pageable);
+    }
+
+    @Override
+    public Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) {
+        return houseRepo.findByOwnerIdAndNameContains(id,name, pageable);
+    }
+
+    @Override
+    public Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable) {
+        return houseRepo.findByOwnerIdAndStatus(id,status,pageable);
     }
 }
