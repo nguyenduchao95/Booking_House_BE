@@ -1,5 +1,4 @@
 package com.booking_house_be.repository;
-
 import com.booking_house_be.entity.House;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,9 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
-import java.util.List;
-import java.util.Optional;
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
@@ -44,8 +40,6 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
     Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable);
 
     Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable);
-
-    Page<House> findByNameContaining(String name, Pageable pageable);
 
     @Query("SELECT h FROM House h WHERE h.province LIKE concat('%', :province, '%') AND h.name LIKE concat('%', :nameSearch, '%') AND h.newPrice BETWEEN :minPrice AND :maxPrice")
     Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable,@Param("nameSearch") String nameSearch,@Param("province") String province, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
