@@ -1,10 +1,7 @@
 package com.booking_house_be.service.impl;
-
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Image;
-import com.booking_house_be.repository.IAccountRepo;
-import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IImageRepo;
 import com.booking_house_be.service.IHouseService;
@@ -31,9 +28,9 @@ public class HouseService implements IHouseService {
     @Override
     public House createHouse(HouseDto houseDto) {
         House house = houseRepo.save(new House(houseDto));
-        if (house != null){
+        if (house != null) {
             List<Image> imageList = new ArrayList<>();
-            for (String url : houseDto.getImages()){
+            for (String url : houseDto.getImages()) {
                 imageList.add(new Image(url, house));
             }
             imageRepo.saveAll(imageList);
@@ -48,7 +45,7 @@ public class HouseService implements IHouseService {
 
     @Override
     public Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndNameContains(id,name, pageable);
+        return houseRepo.findByOwnerIdAndNameContains(id, name, pageable);
     }
 
     @Override
@@ -56,24 +53,19 @@ public class HouseService implements IHouseService {
         return houseRepo.findByOwnerIdAndStatus(id, status, pageable);
     }
 
-
     @Override
-    public Page<House> getAll(Pageable pageable) {
-        return houseRepo.findAll(pageable);
+    public Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice) {
+        return houseRepo.findAllByPriceRange(pageable, minPrice, maxPrice);
     }
 
     @Override
-    public Page<House> findByNameContaining(String name, Pageable pageable) {
-        return houseRepo.findByNameContaining(name, pageable);
+    public Page<House> findHousesByNameAndPriceRange(Pageable pageable, String nameSearch, double minPrice, double maxPrice) {
+        return houseRepo.findHousesByNameAndPriceRange(pageable, nameSearch, minPrice, maxPrice);
     }
 
     @Override
-    public Page<House> findHousesByPriceRange(double minPrice, double maxPrice, Pageable pageable) {
-        return houseRepo.findHousesByPriceRange(minPrice, maxPrice, pageable);
+    public Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice) {
+        return houseRepo.findHousesByNameAndPriceRangeAndLocal(pageable, nameSearch, province, minPrice, maxPrice);
     }
 
-    @Override
-    public Double findMaxPrice() {
-        return houseRepo.findMaxPrice();
-    }
 }

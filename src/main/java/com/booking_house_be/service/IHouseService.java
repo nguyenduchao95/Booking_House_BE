@@ -18,12 +18,9 @@ public interface IHouseService {
 
     Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable);
 
-    Page<House> getAll(Pageable pageable);
+    Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice);
 
-    Page<House> findByNameContaining(String name, Pageable pageable);
-
-    Double findMaxPrice();
-
-    Page<House> findHousesByPriceRange(double minPrice, double maxPrice, Pageable pageable);
+    Page<House> findHousesByNameAndPriceRange(Pageable pageable, String nameSearch, double minPrice, double maxPrice);
+    Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch,String province, double minPrice, double maxPrice);
 
 }

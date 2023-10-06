@@ -41,15 +41,20 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         String getStatus();
     }
 
-
     Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable);
 
     Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable);
-    Page<House>findByNameContaining(String name, Pageable pageable);
+
+    Page<House> findByNameContaining(String name, Pageable pageable);
+
+    @Query("SELECT h FROM House h WHERE h.province LIKE concat('%', :province, '%') AND h.name LIKE concat('%', :nameSearch, '%') AND h.newPrice BETWEEN :minPrice AND :maxPrice")
+    Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable,@Param("nameSearch") String nameSearch,@Param("province") String province, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
     @Query("SELECT h FROM House h WHERE h.newPrice BETWEEN :minPrice AND :maxPrice")
-    Page<House> findHousesByPriceRange(double minPrice, double maxPrice, Pageable pageable);
+    Page<House> findAllByPriceRange(Pageable pageable, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
+    @Query("SELECT h FROM House h WHERE h.name LIKE concat('%', :nameSearch, '%') AND h.newPrice BETWEEN :minPrice AND :maxPrice")
+    Page<House> findHousesByNameAndPriceRange(Pageable pageable, @Param("nameSearch") String nameSearch, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
     @Query("SELECT MAX(h.newPrice) FROM House h")
     Double findMaxPrice();
