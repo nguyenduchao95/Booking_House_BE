@@ -28,6 +28,7 @@ public class House {
     private String facility;
     private double oldPrice;
     private double newPrice;
+    private double area;
     private String thumbnail;
     private String status;
     private LocalDate createAt;
