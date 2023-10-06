@@ -1,7 +1,9 @@
 package com.booking_house_be.service.impl;
 
 import com.booking_house_be.entity.Account;
+import com.booking_house_be.entity.Role;
 import com.booking_house_be.repository.IAccountRepo;
+import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,13 +21,13 @@ import java.util.Optional;
 public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepo accountRepo;
+    @Autowired
+    private IRoleRepo roleRepo;
 
     @Override
     public Account getById(int id) {
         return accountRepo.findById(id).get();
     }
-
-
 
     @Override
     public void edit(Account account) {
@@ -55,6 +57,8 @@ public class AccountService implements IAccountService {
         if (account1 != null || account.getPassword().isEmpty()) {
             return null;
         } else {
+            Role role = roleRepo.findByName("ROLE_USER");
+            account.setRole(role);
             return accountRepo.save(account);
         }
     }
