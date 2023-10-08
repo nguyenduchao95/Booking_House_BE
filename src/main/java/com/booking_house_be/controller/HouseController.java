@@ -81,5 +81,9 @@ public class HouseController {
         Pageable pageable = PageRequest.of(page, size);
         return houseService.findByOwnerIdAndStatus(ownerId, status, pageable);
     }
+    @PutMapping("/owner/{houseId}")
+    public House updateStageStatus(@PathVariable int houseId, @RequestParam("status") String status) {
+        return houseService.updateStatus(houseId, status);
+    }
 
 }

@@ -22,5 +22,5 @@ public interface IHouseService {
 
     Page<House> findHousesByNameAndPriceRange(Pageable pageable, String nameSearch, double minPrice, double maxPrice);
     Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch,String province, double minPrice, double maxPrice);
-
+    House updateStatus(int id, String status);
 }
