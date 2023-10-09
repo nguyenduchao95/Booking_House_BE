@@ -9,9 +9,7 @@ import org.springframework.data.domain.Pageable;
 public interface IHouseService {
     House findById(int id);
 
-
     House createHouse(HouseDto houseDto);
-
     House editHouse(HouseDto houseDto);
 
     Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId, Pageable pageable);
@@ -27,4 +25,5 @@ public interface IHouseService {
     Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice);
 
     House findByIdAndOwnerId(int houseId, int ownerId);
+    House updateStatus(int id, String status);
 }

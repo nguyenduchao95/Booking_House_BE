@@ -78,6 +78,14 @@ public class HouseService implements IHouseService {
     public Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice) {
         return houseRepo.findHousesByNameAndPriceRangeAndLocal(pageable, nameSearch, province, minPrice, maxPrice);
     }
+    public House updateStatus(int id, String status) {
+        House house = houseRepo.findById(id).orElse(null);
+        if (house != null) {
+            house.setStatus(status);
+            return houseRepo.save(house);
+        }
+        return null;
+    }
 
     @Override
     public House findByIdAndOwnerId(int houseId, int ownerId) {

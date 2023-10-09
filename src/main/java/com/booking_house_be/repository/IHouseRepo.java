@@ -9,17 +9,23 @@ import org.springframework.data.repository.query.Param;
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
-    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, " +
-            "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue, " +
-            "CASE WHEN COUNT(b.id) = 0 THEN 'Đang trống' " +
-            "     WHEN SUM(CASE WHEN b.status = 'CONFIRMED' THEN 1 ELSE 0 END) > 0 THEN 'Đang cho thuê' " +
-            "     ELSE 'Đang bảo trì' " +
-            "END AS status " +
+    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, h.status as status," +
+            "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue " +
             "FROM House h " +
             "LEFT JOIN Booking b ON h.id = b.house.id " +
-            "WHERE h.owner.id = :ownerId " +
             "GROUP BY h.id")
     Page<HouseInfo> findHouseInfoByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
+//    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, " +
+//            "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue, " +
+//            "CASE WHEN COUNT(b.id) = 0 THEN 'available' " +
+//            "     WHEN SUM(CASE WHEN b.status = 'CONFIRMED' THEN 1 ELSE 0 END) > 0 THEN 'booked' " +
+//            "     ELSE 'repair' " +
+//            "END AS status " +
+//            "FROM House h " +
+//            "LEFT JOIN Booking b ON h.id = b.house.id " +
+//            "WHERE h.owner.id = :ownerId " +
+//            "GROUP BY h.id")
+//    Page<HouseInfo> findHouseInfoByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
 
     interface HouseInfo {
         int getId();
