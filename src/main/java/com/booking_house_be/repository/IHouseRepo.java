@@ -49,7 +49,7 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
     Page<House> findHousesByNameAndPriceRange(Pageable pageable, @Param("nameSearch") String nameSearch, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
 
-
+    House findByIdAndOwnerId(int houseId, int ownerId);
 }
 
 

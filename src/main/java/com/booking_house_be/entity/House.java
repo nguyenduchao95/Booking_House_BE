@@ -37,6 +37,7 @@ public class House {
     private Account owner;
 
     public House(HouseDto houseDto){
+        this.id = houseDto.getId();
         this.name = houseDto.getName();
         this.address = houseDto.getAddress();
         this.province = houseDto.getProvince();
@@ -50,8 +51,6 @@ public class House {
         this.oldPrice = houseDto.getOldPrice();
         this.newPrice = houseDto.getNewPrice();
         this.thumbnail = houseDto.getThumbnail();
-        this.status = "ok";
-        this.createAt = LocalDate.now();
         this.owner = houseDto.getOwner();
     }
 }

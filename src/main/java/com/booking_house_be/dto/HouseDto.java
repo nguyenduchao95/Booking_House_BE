@@ -1,12 +1,15 @@
 package com.booking_house_be.dto;
 
 import com.booking_house_be.entity.Account;
+import com.booking_house_be.entity.Image;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 public class HouseDto {
+    private int id;
     private String name;
     private String address;
     private String province;
@@ -17,10 +20,13 @@ public class HouseDto {
     private int bathroom;
     private String description;
     private String facility;
+    private double area;
     private double oldPrice;
     private double newPrice;
     private String thumbnail;
-    private List<String> images;
+    private List<Image> images;
+    private List<Image> imagesDelete;
     private Account owner;
+    private LocalDate createAt;
 }
 

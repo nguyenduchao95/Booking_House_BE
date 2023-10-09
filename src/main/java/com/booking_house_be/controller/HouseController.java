@@ -29,7 +29,6 @@ public class HouseController {
             @RequestParam(value = "maxPrice", required = false) double maxPrice) {
         province = province.replace("_", " ");
         nameSearch = nameSearch.replace("_", " ");
-
         if (maxPrice == 0) {
             maxPrice = Double.MAX_VALUE;
         }
@@ -53,6 +52,14 @@ public class HouseController {
         }
     }
 
+    @GetMapping("/{houseId}/{ownerId}")
+    public ResponseEntity<?> getById(@PathVariable int houseId, @PathVariable int ownerId) {
+        try {
+            return ResponseEntity.ok(houseService.findByIdAndOwnerId(houseId, ownerId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
 
 
     @GetMapping("/owner/search/{ownerId}")
@@ -63,10 +70,7 @@ public class HouseController {
                                                                    @RequestParam(value = "size", defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-
-            return houseService.findByOwnerIdAndNameAndStatus( ownerId, name, status, pageable);
-
-
+        return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
     }
 
 
