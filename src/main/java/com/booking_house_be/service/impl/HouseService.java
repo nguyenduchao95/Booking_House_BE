@@ -3,8 +3,6 @@ package com.booking_house_be.service.impl;
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Image;
-import com.booking_house_be.repository.IAccountRepo;
-import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IImageRepo;
 import com.booking_house_be.service.IHouseService;
@@ -13,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,15 +28,25 @@ public class HouseService implements IHouseService {
 
     @Override
     public House createHouse(HouseDto houseDto) {
-        House house = houseRepo.save(new House(houseDto));
-        if (house != null){
-            List<Image> imageList = new ArrayList<>();
-            for (String url : houseDto.getImages()){
-                imageList.add(new Image(url, house));
-            }
-            imageRepo.saveAll(imageList);
+        House house = new House(houseDto);
+        house.setStatus("ok");
+        house.setCreateAt(LocalDate.now());
+        House houseDB = houseRepo.save(house);
+        List<Image> imageList = houseDto.getImages();
+        for (Image image : houseDto.getImages()) {
+            image.setHouse(houseDB);
         }
-        return house;
+        imageRepo.saveAll(imageList);
+        return houseDB;
+    }
+
+    @Override
+    public House editHouse(HouseDto houseDto) {
+        imageRepo.saveAll(houseDto.getImages());
+        imageRepo.deleteAll(houseDto.getImagesDelete());
+        House house = new House(houseDto);
+        house.setUpdateAt(LocalDate.now());
+        return houseRepo.save(house);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class HouseService implements IHouseService {
 
     @Override
     public Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndNameContains(id,name, pageable);
+        return houseRepo.findByOwnerIdAndNameContains(id, name, pageable);
     }
 
     @Override
@@ -56,24 +64,32 @@ public class HouseService implements IHouseService {
         return houseRepo.findByOwnerIdAndStatus(id, status, pageable);
     }
 
-
     @Override
-    public Page<House> getAll(Pageable pageable) {
-        return houseRepo.findAll(pageable);
+    public Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice) {
+        return houseRepo.findAllByPriceRange(pageable, minPrice, maxPrice);
     }
 
     @Override
-    public Page<House> findByNameContaining(String name, Pageable pageable) {
-        return houseRepo.findByNameContaining(name, pageable);
+    public Page<House> findHousesByNameAndPriceRange(Pageable pageable, String nameSearch, double minPrice, double maxPrice) {
+        return houseRepo.findHousesByNameAndPriceRange(pageable, nameSearch, minPrice, maxPrice);
     }
 
     @Override
-    public Page<House> findHousesByPriceRange(double minPrice, double maxPrice, Pageable pageable) {
-        return houseRepo.findHousesByPriceRange(minPrice, maxPrice, pageable);
+    public Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice) {
+        return houseRepo.findHousesByNameAndPriceRangeAndLocal(pageable, nameSearch, province, minPrice, maxPrice);
+    }
+    public House updateStatus(int id, String status) {
+        House house = houseRepo.findById(id).orElse(null);
+        if (house != null) {
+            house.setStatus(status);
+            return houseRepo.save(house);
+        }
+        return null;
     }
 
     @Override
-    public Double findMaxPrice() {
-        return houseRepo.findMaxPrice();
+    public House findByIdAndOwnerId(int houseId, int ownerId) {
+        return houseRepo.findByIdAndOwnerId(houseId, ownerId);
     }
+
 }

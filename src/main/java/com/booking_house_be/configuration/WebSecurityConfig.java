@@ -43,6 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/category**").hasRole("ADMIN")
                 .antMatchers("/product**").hasAnyRole("ADMIN","VENDOR")
                 .antMatchers("/billDetail**").hasRole("CUSTOMER")
+                .antMatchers("/api/owners/**").hasRole("OWNER")
+                .antMatchers("/api/**" ).permitAll()
+//                .antMatchers(HttpMethod.PUT ,"/api/accounts/**" ).permitAll()
+//                .antMatchers("/category**").hasRole("ADMIN")
+//                .antMatchers("/product**").hasAnyRole("ADMIN","VENDOR")
+//                .antMatchers("/billDetail**").hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling();
