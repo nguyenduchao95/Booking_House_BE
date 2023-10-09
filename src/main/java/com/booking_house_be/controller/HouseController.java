@@ -28,6 +28,7 @@ public class HouseController {
             @RequestParam(value = "minPrice") double minPrice,
             @RequestParam(value = "maxPrice", required = false) double maxPrice) {
         province = province.replace("_", " ");
+        nameSearch = nameSearch.replace("_", " ");
         if (maxPrice == 0) {
             maxPrice = Double.MAX_VALUE;
         }
@@ -61,35 +62,18 @@ public class HouseController {
     }
 
 
-    @GetMapping("/owner/{ownerId}")
-    public Page<IHouseRepo.HouseInfo> getHousesByOwnerId(@PathVariable int ownerId,
-                                                         @RequestParam(value = "page", defaultValue = "0") int page,
-                                                         @RequestParam(value = "size", defaultValue = "5") int size) {
+    @GetMapping("/owner/search/{ownerId}")
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameContains(@PathVariable int ownerId,
+                                                                   @RequestParam("name") String name,
+                                                                   @RequestParam("status") String status,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        return houseService.getHousesByOwnerId(ownerId, pageable);
+        return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
     }
 
 
-    @GetMapping("/owner/by-name/{ownerId}")
-    public Page<House> findByOwnerIdAndNameContains(@PathVariable int ownerId,
-                                                    @RequestParam("name") String name,
-                                                    @RequestParam(value = "page", defaultValue = "0") int page,
-                                                    @RequestParam(value = "size", defaultValue = "5") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        return houseService.findByOwnerIdAndNameContains(ownerId, name, pageable);
-    }
-
-    @GetMapping("/owner/by-status/{ownerId}")
-    public Page<House> findByOwnerIdAndStatus(@PathVariable int ownerId,
-                                              @RequestParam("status") String status,
-                                              @RequestParam(value = "page", defaultValue = "0") int page,
-                                              @RequestParam(value = "size", defaultValue = "5") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        return houseService.findByOwnerIdAndStatus(ownerId, status, pageable);
-    }
     @PutMapping("/owner/{houseId}")
     public House updateStageStatus(@PathVariable int houseId, @RequestParam("status") String status) {
         return houseService.updateStatus(houseId, status);
