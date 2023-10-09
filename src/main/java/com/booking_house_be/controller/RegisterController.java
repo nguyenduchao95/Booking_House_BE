@@ -16,6 +16,7 @@ public class RegisterController {
     @PostMapping
     public ResponseEntity<Account> createNewAccount(@RequestBody Account account) {
         if (accountService.checkRegister(account) == null){
+
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(account, HttpStatus.OK);

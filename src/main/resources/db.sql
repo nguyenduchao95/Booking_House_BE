@@ -21,16 +21,6 @@ VALUES
     ('Mini Apartment'),
     ('Resort');
 
-INSERT INTO House (name, address, bedroom, bathroom, description, new_price,old_price, thumbnail, status, create_at, update_at, owner_id, category_id,area)
-VALUES
-    ('Beach House', '123 Beachfront Ave', 3, 2, 'Beautiful beachfront house', 200.0,210.0, 'http://localhost:63342/real-estate-html-template/real-estate-html-template/img/property-1.jpg', 'available', '2023-09-15', '2023-09-15', 2, 1,200),
-    ('City Apartment', '456 Downtown St', 2, 1, 'Modern apartment in the city center', 150.0, 170.0,'http://localhost:63342/real-estate-html-template/real-estate-html-template/img/property-2.jpg', 'available', '2023-09-15', '2023-09-15', 2, 3,120),
-    ('Mountain Cabin', '789 Forest Rd', 2, 1, 'Cozy cabin in the mountains', 120.0,130.0, 'http://localhost:63342/real-estate-html-template/real-estate-html-template/img/property-3.jpg', 'booked', '2023-09-15', '2023-09-15', 3, 4,150),
-    ('Riverside Villa', '321 Riverside Rd', 4, 3, 'Spacious villa by the river', 250.0,270.0, 'riverside_villa.jpg', 'available', '2023-09-16', '2023-09-16', 2, 1,90),
-    ('Downtown Loft', '789 Main St', 1, 1, 'Cozy loft in the heart of downtown', 100.0,110.0, 'downtown_loft.jpg', 'available', '2023-09-16', '2023-09-16', 3, 2,110),
-    ('Hillside Retreat', '456 Hilltop Ave', 3, 2, 'Peaceful retreat in the hills', 180.0, 200.0,'hillside_retreat.jpg', 'booked', '2023-09-16', '2023-09-16', 1, 4.250),
-    ('Beachfront Bungalow', '101 Ocean Blvd', 2, 1, 'Quaint bungalow on the beach', 150.0, 170.0,'beachfront_bungalow.jpg', 'available', '2023-09-16', '2023-09-16', 2, 1,200),
-('Lakefront Resort', '101 Lakeview Dr', 5, 3, 'Luxurious lakefront resort', 300.0, 320.0,'http://localhost:63342/real-estate-html-template/real-estate-html-template/img/property-4.jpg', 'available', '2023-09-15', '2023-09-15', 2, 4,90.0);
 
 
 INSERT INTO Booking (start_time, end_time, total, status, house_id, account_id)
