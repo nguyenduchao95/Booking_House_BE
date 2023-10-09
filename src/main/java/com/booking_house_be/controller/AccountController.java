@@ -66,12 +66,6 @@ public class AccountController {
     @PostMapping("/registerOwner/{id}")
     public Account registerOwner(@PathVariable int id , @RequestBody Account accountEdit) {
         Account account = accountService.getById(id);
-        account.setFirstname(accountEdit.getFirstname());
-        account.setLastname(accountEdit.getLastname());
-        account.setAddress(accountEdit.getAddress());
-        account.setEmail(accountEdit.getEmail());
-        account.setPhone(accountEdit.getPhone());
-        account.setAvatar(accountEdit.getAvatar());
         account.setFrontside(accountEdit.getFrontside());
         account.setBackside(accountEdit.getBackside());
         accountService.edit(account);
