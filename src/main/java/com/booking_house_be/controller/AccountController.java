@@ -32,6 +32,9 @@ public class AccountController {
         account.setFirstname(accountEdit.getFirstname());
         account.setLastname(accountEdit.getLastname());
         account.setAddress(accountEdit.getAddress());
+        account.setProvince(accountEdit.getProvince());
+        account.setDistrict(accountEdit.getDistrict());
+        account.setWard(accountEdit.getWard());
         account.setEmail(accountEdit.getEmail());
         account.setPhone(accountEdit.getPhone());
         account.setAvatar(accountEdit.getAvatar());

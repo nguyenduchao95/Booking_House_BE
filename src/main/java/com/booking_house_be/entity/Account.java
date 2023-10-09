@@ -16,12 +16,14 @@ public class Account {
     private String firstname;
     private String lastname;
     private String address;
+    private String province;
+    private String district;
+    private String ward;
     private String email;
     private String phone;
     private String avatar;
     private double wallet;
     private String status;
-    // ảnh cmt xác thực làm chủ nhà
     @Column(columnDefinition = "TEXT")
     private String frontside;
     @Column(columnDefinition = "TEXT")

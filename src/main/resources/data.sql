@@ -68,3 +68,12 @@ alter table account
 alter table account
     add backside text  null after frontside;
 
+alter table account
+    add province text  null after frontside;
+
+alter table account
+    add district text  null after frontside;
+
+alter table account
+    add ward text  null after frontside;
+
