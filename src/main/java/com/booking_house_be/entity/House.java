@@ -26,8 +26,8 @@ public class House {
     private String description;
     @Column(columnDefinition = "TEXT")
     private String facility;
-    private double oldPrice;
-    private double newPrice;
+    private double price;
+    private int sale;
     private double area;
     private String thumbnail;
     private String status;
@@ -48,8 +48,8 @@ public class House {
         this.bedroom = houseDto.getBedroom();
         this.description = houseDto.getDescription();
         this.facility = houseDto.getFacility();
-        this.oldPrice = houseDto.getOldPrice();
-        this.newPrice = houseDto.getNewPrice();
+        this.price = houseDto.getPrice();
+        this.sale = houseDto.getSale();
         this.thumbnail = houseDto.getThumbnail();
         this.owner = houseDto.getOwner();
     }

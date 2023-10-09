@@ -28,7 +28,7 @@ public class HouseService implements IHouseService {
     @Override
     public House createHouse(HouseDto houseDto) {
         House house = new House(houseDto);
-        house.setStatus("ok");
+        house.setStatus("Đang trống");
         house.setCreateAt(LocalDate.now());
         House houseDB = houseRepo.save(house);
         List<Image> imageList = houseDto.getImages();
