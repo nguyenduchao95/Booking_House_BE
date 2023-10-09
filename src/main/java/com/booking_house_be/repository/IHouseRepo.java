@@ -1,4 +1,5 @@
 package com.booking_house_be.repository;
+
 import com.booking_house_be.entity.House;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,23 +10,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
-    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, h.status as status," +
+
+    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, h.status AS status, " +
             "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue " +
             "FROM House h " +
             "LEFT JOIN Booking b ON h.id = b.house.id " +
-            "GROUP BY h.id")
-    Page<HouseInfo> findHouseInfoByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
-//    @Query("SELECT h.id as id, h.name AS name,h.thumbnail AS thumbnail, h.newPrice AS price, h.address AS address, " +
-//            "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue, " +
-//            "CASE WHEN COUNT(b.id) = 0 THEN 'available' " +
-//            "     WHEN SUM(CASE WHEN b.status = 'CONFIRMED' THEN 1 ELSE 0 END) > 0 THEN 'booked' " +
-//            "     ELSE 'repair' " +
-//            "END AS status " +
-//            "FROM House h " +
-//            "LEFT JOIN Booking b ON h.id = b.house.id " +
-//            "WHERE h.owner.id = :ownerId " +
-//            "GROUP BY h.id")
-//    Page<HouseInfo> findHouseInfoByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
+            "WHERE h.owner.id = :ownerId " +
+            "AND h.name LIKE CONCAT('%', :nameSearch, '%') " +
+            "AND h.status LIKE CONCAT('%', :status, '%') " +
+            "GROUP BY h.id, h.name, h.thumbnail, h.newPrice, h.address, h.status")
+    Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus(@Param("ownerId") int ownerId, @Param("nameSearch") String nameSearch, @Param("status") String status, Pageable pageable);
+
 
     interface HouseInfo {
         int getId();
@@ -43,12 +38,9 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         String getStatus();
     }
 
-    Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable);
-
-    Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable);
 
     @Query("SELECT h FROM House h WHERE h.province LIKE concat('%', :province, '%') AND h.name LIKE concat('%', :nameSearch, '%') AND h.newPrice BETWEEN :minPrice AND :maxPrice")
-    Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable,@Param("nameSearch") String nameSearch,@Param("province") String province, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
+    Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, @Param("nameSearch") String nameSearch, @Param("province") String province, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
     @Query("SELECT h FROM House h WHERE h.newPrice BETWEEN :minPrice AND :maxPrice")
     Page<House> findAllByPriceRange(Pageable pageable, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
@@ -56,8 +48,6 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
     @Query("SELECT h FROM House h WHERE h.name LIKE concat('%', :nameSearch, '%') AND h.newPrice BETWEEN :minPrice AND :maxPrice")
     Page<House> findHousesByNameAndPriceRange(Pageable pageable, @Param("nameSearch") String nameSearch, @Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
-    @Query("SELECT MAX(h.newPrice) FROM House h")
-    Double findMaxPrice();
 
 
 }

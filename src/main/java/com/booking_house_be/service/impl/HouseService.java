@@ -39,21 +39,6 @@ public class HouseService implements IHouseService {
     }
 
     @Override
-    public Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId, Pageable pageable) {
-        return houseRepo.findHouseInfoByOwnerId(ownerId, pageable);
-    }
-
-    @Override
-    public Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndNameContains(id, name, pageable);
-    }
-
-    @Override
-    public Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndStatus(id, status, pageable);
-    }
-
-    @Override
     public Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice) {
         return houseRepo.findAllByPriceRange(pageable, minPrice, maxPrice);
     }
@@ -74,6 +59,10 @@ public class HouseService implements IHouseService {
             return houseRepo.save(house);
         }
         return null;
+    }
+    @Override
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable){
+        return houseRepo.findByOwnerIdAndNameAndStatus( id, name,  status, pageable);
     }
 
 }
