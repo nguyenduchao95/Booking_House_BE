@@ -53,7 +53,7 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
     @Query("SELECT MAX(h.newPrice) FROM House h")
     Double findMaxPrice();
 
-
+    House findByIdAndOwnerId(int houseId, int ownerId);
 }
 
 

@@ -26,4 +26,17 @@ public class OwnerController {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
     }
+
+    @PostMapping("/edit-house")
+    public ResponseEntity<?> editHouse(@RequestBody HouseDto houseDto) {
+        try {
+            House house = houseService.editHouse(houseDto);
+            if (house == null)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Edit house fail!");
+            else
+                return ResponseEntity.ok(house);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
 }

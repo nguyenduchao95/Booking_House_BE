@@ -1,4 +1,5 @@
 package com.booking_house_be.service.impl;
+
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Image;
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,15 +28,25 @@ public class HouseService implements IHouseService {
 
     @Override
     public House createHouse(HouseDto houseDto) {
-        House house = houseRepo.save(new House(houseDto));
-        if (house != null) {
-            List<Image> imageList = new ArrayList<>();
-            for (String url : houseDto.getImages()) {
-                imageList.add(new Image(url, house));
-            }
-            imageRepo.saveAll(imageList);
+        House house = new House(houseDto);
+        house.setStatus("ok");
+        house.setCreateAt(LocalDate.now());
+        House houseDB = houseRepo.save(house);
+        List<Image> imageList = houseDto.getImages();
+        for (Image image : houseDto.getImages()) {
+            image.setHouse(houseDB);
         }
-        return house;
+        imageRepo.saveAll(imageList);
+        return houseDB;
+    }
+
+    @Override
+    public House editHouse(HouseDto houseDto) {
+        imageRepo.saveAll(houseDto.getImages());
+        imageRepo.deleteAll(houseDto.getImagesDelete());
+        House house = new House(houseDto);
+        house.setUpdateAt(LocalDate.now());
+        return houseRepo.save(house);
     }
 
     @Override
@@ -66,6 +77,11 @@ public class HouseService implements IHouseService {
     @Override
     public Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice) {
         return houseRepo.findHousesByNameAndPriceRangeAndLocal(pageable, nameSearch, province, minPrice, maxPrice);
+    }
+
+    @Override
+    public House findByIdAndOwnerId(int houseId, int ownerId) {
+        return houseRepo.findByIdAndOwnerId(houseId, ownerId);
     }
 
 }

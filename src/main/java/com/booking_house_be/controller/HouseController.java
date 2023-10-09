@@ -51,6 +51,15 @@ public class HouseController {
         }
     }
 
+    @GetMapping("/{houseId}/{ownerId}")
+    public ResponseEntity<?> getById(@PathVariable int houseId, @PathVariable int ownerId) {
+        try {
+            return ResponseEntity.ok(houseService.findByIdAndOwnerId(houseId, ownerId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
+
 
     @GetMapping("/owner/{ownerId}")
     public Page<IHouseRepo.HouseInfo> getHousesByOwnerId(@PathVariable int ownerId,
