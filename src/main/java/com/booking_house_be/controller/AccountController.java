@@ -1,6 +1,9 @@
 package com.booking_house_be.controller;
 import com.booking_house_be.entity.Account;
+import com.booking_house_be.entity.Owner;
+import com.booking_house_be.repository.IOwnerRepo;
 import com.booking_house_be.service.IAccountService;
+import com.booking_house_be.service.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ import java.util.Optional;
 public class AccountController {
     @Autowired
     private IAccountService accountService;
+
+    @Autowired
+    private IOwnerService ownerService;
     @GetMapping("/admins")
     public List<Account> findAdmins() {
         return accountService.findAdmins();
@@ -66,13 +72,4 @@ public class AccountController {
             return false;
         }
     }
-    @PostMapping("/registerOwner/{id}")
-    public Account registerOwner(@PathVariable int id , @RequestBody Account accountEdit) {
-        Account account = accountService.getById(id);
-        account.setFrontside(accountEdit.getFrontside());
-        account.setBackside(accountEdit.getBackside());
-        accountService.edit(account);
-        return account;
-    }
-
 }

@@ -24,10 +24,6 @@ public class Account {
     private String avatar;
     private double wallet;
     private String status;
-    @Column(columnDefinition = "TEXT")
-    private String frontside;
-    @Column(columnDefinition = "TEXT")
-    private String backside;
     @ManyToOne
     private Role role;
     private String resetCode;
