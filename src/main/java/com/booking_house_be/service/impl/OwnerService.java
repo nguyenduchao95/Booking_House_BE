@@ -18,4 +18,9 @@ public class OwnerService implements IOwnerService {
     public void edit(Owner owner) {
         ownerRepo.save(owner);
     }
+
+    @Override
+    public Owner getOwnerByAccount(int idAccount) {
+        return ownerRepo.getOwnerByAccount(idAccount);
+    }
 }

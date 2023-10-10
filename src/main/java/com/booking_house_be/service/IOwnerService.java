@@ -7,4 +7,6 @@ public interface IOwnerService {
     void save(Owner owner);
 
     void edit(Owner owner);
+
+    Owner getOwnerByAccount(int idAccount);
 }

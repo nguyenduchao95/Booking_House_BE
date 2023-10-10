@@ -23,6 +23,8 @@ public class AccountController {
 
     @Autowired
     private IOwnerService ownerService;
+    @Autowired
+    private IOwnerRepo ownerRepo;
     @GetMapping("/admins")
     public List<Account> findAdmins() {
         return accountService.findAdmins();
@@ -71,5 +73,17 @@ public class AccountController {
         }else  {
             return false;
         }
+    }
+    @PostMapping("/registerOwner")
+    public ResponseEntity<?> registerOwner( @RequestBody Owner owner) {
+        ownerService.save(owner);
+        return  new ResponseEntity<>(true , HttpStatus.OK);
+    }
+
+    @GetMapping("/getByAccount/{idAccount}")
+    public ResponseEntity<?> getByIdAccount(@PathVariable int idAccount) {
+        Owner owner = ownerRepo.getOwnerByAccount(idAccount);
+        Owner owner1 = new Owner(owner.getStatus());
+        return new ResponseEntity(owner1 , HttpStatus.OK);
     }
 }
