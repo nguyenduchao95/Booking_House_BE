@@ -21,8 +21,8 @@ public class HouseDto {
     private String description;
     private String facility;
     private double area;
-    private double oldPrice;
-    private double newPrice;
+    private double price;
+    private int sale;
     private String thumbnail;
     private List<Image> images;
     private List<Image> imagesDelete;
