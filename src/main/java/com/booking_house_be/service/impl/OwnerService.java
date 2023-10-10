@@ -6,6 +6,8 @@ import com.booking_house_be.service.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OwnerService implements IOwnerService {
     @Autowired
@@ -22,5 +24,14 @@ public class OwnerService implements IOwnerService {
     @Override
     public Owner getOwnerByAccount(int idAccount) {
         return ownerRepo.getOwnerByAccount(idAccount);
+    }
+    @Override
+    public List<Owner> getAll() {
+        return ownerRepo.findAll();
+    }
+
+    @Override
+    public List<Owner> getAllByStatus(String status) {
+        return ownerRepo.getAllByStatus(status);
     }
 }

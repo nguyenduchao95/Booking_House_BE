@@ -1,7 +1,9 @@
 package com.booking_house_be.controller;
 import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Owner;
+import com.booking_house_be.entity.Role;
 import com.booking_house_be.repository.IOwnerRepo;
+import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,14 @@ public class AccountController {
 
     @Autowired
     private IOwnerService ownerService;
+
     @Autowired
-    private IOwnerRepo ownerRepo;
+    private IRoleRepo roleRepo;
+
     @GetMapping("/admins")
     public List<Account> findAdmins() {
         return accountService.findAdmins();
     }
-
     @GetMapping("/getById/{id}")
     public Account getById(@PathVariable int id) {
         return accountService.getById(id);
@@ -57,7 +60,6 @@ public class AccountController {
     public ResponseEntity<Account> getAccountByUserName(@PathVariable String username){
         return new ResponseEntity<>(accountService.getAccountByUsername(username), HttpStatus.OK);
     }
-
     @PutMapping("/changePassword/{id}")
     public Account changePassword(@RequestBody Account accountEdit) {
         Account account = accountService.getById(accountEdit.getId());
@@ -79,11 +81,24 @@ public class AccountController {
         ownerService.save(owner);
         return  new ResponseEntity<>(true , HttpStatus.OK);
     }
-
     @GetMapping("/getByAccount/{idAccount}")
     public ResponseEntity<?> getByIdAccount(@PathVariable int idAccount) {
-        Owner owner = ownerRepo.getOwnerByAccount(idAccount);
+        Owner owner = ownerService.getOwnerByAccount(idAccount);
         Owner owner1 = new Owner(owner.getStatus());
         return new ResponseEntity(owner1 , HttpStatus.OK);
+    }
+    @GetMapping("/getRegisterOwner")
+    public ResponseEntity<?> getRegisterOwner() {
+        return new ResponseEntity<>(ownerService.getAllByStatus("Chờ xác nhận") , HttpStatus.OK);
+    }
+
+    @PostMapping("/agreeRegister")
+    public ResponseEntity<?>  agreeRegister(@RequestBody Owner owner) {
+        ownerService.save(owner);
+        Account account = owner.getAccount();
+        Role role = roleRepo.findById(3);
+        account.setRole(role);
+        accountService.save(account);
+        return new ResponseEntity<>("Xác nhan thanh cong" , HttpStatus.OK);
     }
 }
