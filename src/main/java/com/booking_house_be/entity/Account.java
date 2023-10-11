@@ -1,5 +1,7 @@
 package com.booking_house_be.entity;
 import lombok.Data;
+import lombok.Value;
+
 import javax.persistence.*;
 
 
@@ -20,6 +22,10 @@ public class Account {
     private double wallet;
     private String status;
     // ảnh cmt xác thực làm chủ nhà
+    @Column(columnDefinition = "TEXT")
+    private String frontside;
+    @Column(columnDefinition = "TEXT")
+    private String backside;
     @ManyToOne
     private Role role;
     private String resetCode;

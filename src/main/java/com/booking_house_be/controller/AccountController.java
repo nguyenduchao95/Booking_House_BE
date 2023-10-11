@@ -46,4 +46,30 @@ public class AccountController {
     public ResponseEntity<Account> getAccountByUserName(@PathVariable String username){
         return new ResponseEntity<>(accountService.getAccountByUsername(username), HttpStatus.OK);
     }
+
+    @PutMapping("/changePassword/{id}")
+    public Account changePassword(@RequestBody Account accountEdit) {
+        Account account = accountService.getById(accountEdit.getId());
+        account.setPassword(accountEdit.getPassword());
+        accountService.edit(account);
+        return account;
+    }
+    @PostMapping("/checkPassword/{id}")
+    public boolean checkPassword(@PathVariable int id , @RequestBody Account accountEdit) {
+        Account account = accountService.getById(id);
+        if (account.getPassword().equals(accountEdit.getPassword())) {
+            return true;
+        }else  {
+            return false;
+        }
+    }
+    @PostMapping("/registerOwner/{id}")
+    public Account registerOwner(@PathVariable int id , @RequestBody Account accountEdit) {
+        Account account = accountService.getById(id);
+        account.setFrontside(accountEdit.getFrontside());
+        account.setBackside(accountEdit.getBackside());
+        accountService.edit(account);
+        return account;
+    }
+
 }

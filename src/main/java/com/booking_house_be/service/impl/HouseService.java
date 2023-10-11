@@ -1,5 +1,4 @@
 package com.booking_house_be.service.impl;
-
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Image;
@@ -29,7 +28,7 @@ public class HouseService implements IHouseService {
     @Override
     public House createHouse(HouseDto houseDto) {
         House house = new House(houseDto);
-        house.setStatus("ok");
+        house.setStatus("Đang trống");
         house.setCreateAt(LocalDate.now());
         House houseDB = houseRepo.save(house);
         List<Image> imageList = houseDto.getImages();
@@ -47,21 +46,6 @@ public class HouseService implements IHouseService {
         House house = new House(houseDto);
         house.setUpdateAt(LocalDate.now());
         return houseRepo.save(house);
-    }
-
-    @Override
-    public Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId, Pageable pageable) {
-        return houseRepo.findHouseInfoByOwnerId(ownerId, pageable);
-    }
-
-    @Override
-    public Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndNameContains(id, name, pageable);
-    }
-
-    @Override
-    public Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable) {
-        return houseRepo.findByOwnerIdAndStatus(id, status, pageable);
     }
 
     @Override
@@ -85,6 +69,10 @@ public class HouseService implements IHouseService {
             return houseRepo.save(house);
         }
         return null;
+    }
+    @Override
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable){
+        return houseRepo.findByOwnerIdAndNameAndStatus( id, name,  status, pageable);
     }
 
     @Override
