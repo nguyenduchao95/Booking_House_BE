@@ -61,4 +61,9 @@ public class BookingController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteBookingById(@PathVariable int id){
+        bookingService.deleteById(id);
+        return ResponseEntity.ok("Đã xoá thành công");
+    }
 }
