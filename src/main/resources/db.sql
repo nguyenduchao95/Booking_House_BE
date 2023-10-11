@@ -24,13 +24,6 @@ VALUES
 
 
 
-INSERT INTO Booking (start_time, end_time, total, status, house_id, account_id)
-VALUES
-    ('2023-09-25 14:00:00', '2023-09-27 12:00:00', 300.0, 'confirmed', 12, 1),
-    ('2023-09-26 15:00:00', '2023-09-29 10:00:00', 250.0, 'confirmed', 16, 2),
-    ('2023-09-28 12:00:00', '2023-09-30 11:00:00', 180.0, 'canceled', 10, 3),
-    ('2023-09-30 16:00:00', '2023-10-03 14:00:00', 400.0, 'confirmed', 11, 2);
-
 
 
 INSERT INTO Review (comment, status, rating, create_at, booking_id)
@@ -64,4 +57,28 @@ VALUES
      ('Căn hộ Làng Quê', 'Số 4444 Đường C2, Quận D2, TP Hà Nội', 'Hà Nội', 'Quận D2', 'Phường E2', '4444Q', 3, 2, 'Mô tả căn nhà 17', 'Tiện ích: Bãi đỗ xe', 1300000000, 1100000000, 130.0, 'https://datnendep.vn/wp-content/uploads/2019/11/174379346.jpg', 'ok', '2023-10-05', '2023-10-05', 3),
      ('Căn hộ Phong Cách Hiện Đại', 'Số 5555 Đường F2, Quận G2, TP Hồ Chí Minh', 'Hồ Chí Minh', 'Quận G2', 'Phường H2', '5555R', 4, 3, 'Mô tả căn nhà 18', 'Tiện ích: Sân vườn', 1800000000, 1600000000, 180.0, 'https://dulichtoday.vn/wp-content/uploads/2018/04/Hygge-homestay.jpg', 'ok', '2023-10-05', '2023-10-05', 4),
      ('Nhà Phố Phương Đông', 'Số 6666 Đường K2, Quận L2, TP Hà Nội', 'Hà Nội', 'Quận L2', 'Phường M2', '6666S', 2, 1, 'Mô tả căn nhà 19', 'Tiện ích: Bãi đỗ xe', 1500000000, 1300000000, 150.0, 'https://dulichtoday.vn/wp-content/uploads/2018/04/Hygge-homestay.jpg', 'ok', '2023-10-05', '2023-10-05', 4),
-     ('Biệt thự Cổ Điển', 'Số 7777 Đường N2, Quận O2, TP Hồ Chí Minh', 'Hồ Chí Minh', 'Quận O2', 'Phường P2', '7777T', 3, 2, 'Mô tả căn nhà 20', 'Tiện ích: Sân vườn', 1800000000, 1600000000, 180.0, 'https://dulichtoday.vn/wp-content/uploads/2018/04/Hygge-homestay.jpg', 'ok', '2023-10-05', '2023-10-05', 1);
+
+   ('Biệt thự Cổ Điển', 'Số 7777 Đường N2, Quận O2, TP Hồ Chí Minh', 'Hồ Chí Minh', 'Quận O2', 'Phường P2', '7777T', 3, 2, 'Mô tả căn nhà 20', 'Tiện ích: Sân vườn', 1800000000, 1600000000, 180.0, 'https://dulichtoday.vn/wp-content/uploads/2018/04/Hygge-homestay.jpg', 'ok', '2023-10-05', '2023-10-05', 1);
+
+INSERT INTO Booking (start_time, end_time, total, status, house_id, account_id)
+VALUES
+    ('2023-10-10', '2023-10-15', 15000000, 'confirmed', 11, 3),
+    ('2023-10-12', '2023-10-18', 20000000, 'confirmed', 12, 4),
+    ('2023-10-15', '2023-10-20', 13000000, 'confirmed', 13, 5),
+    ('2023-10-20', '2023-10-25', 16000000, 'confirmed', 12, 7),
+    ('2023-10-22', '2023-10-27', 18000000, 'confirmed', 15, 6),
+    ('2023-10-25', '2023-10-30', 11000000, 'confirmed', 10, 3),
+    ('2023-10-28', '2023-11-02', 20000000, 'confirmed', 12, 6),
+    ('2023-10-30', '2023-11-04', 16000000, 'confirmed', 11, 4),
+    ('2023-11-02', '2023-11-07', 13000000, 'confirmed', 9, 4),
+    ('2023-11-05', '2023-11-10', 16000000, 'confirmed', 10, 5),
+    ('2023-11-08', '2023-11-13', 11000000, 'confirmed', 11, 7),
+    ('2023-11-10', '2023-11-15', 20000000, 'confirmed', 12, 5),
+    ('2023-11-12', '2023-11-17', 13000000, 'confirmed', 13, 3),
+    ('2023-11-15', '2023-11-20', 16000000, 'confirmed', 14, 6),
+    ('2023-11-18', '2023-11-23', 18000000, 'confirmed', 11, 7),
+    ('2023-11-20', '2023-11-25', 11000000, 'confirmed', 9, 5),
+    ('2023-11-23', '2023-11-28', 20000000, 'confirmed', 10, 3),
+    ('2023-11-25', '2023-11-30', 16000000, 'confirmed', 12, 7),
+    ('2023-11-28', '2023-12-03', 13000000, 'confirmed', 11, 5),
+    ('2023-11-30', '2023-12-05', 16000000, 'confirmed', 14, 4);
