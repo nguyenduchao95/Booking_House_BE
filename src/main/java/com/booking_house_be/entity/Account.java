@@ -21,7 +21,6 @@ public class Account {
     private String avatar;
     private double wallet;
     private String status;
-    // ảnh cmt xác thực làm chủ nhà
     @Column(columnDefinition = "TEXT")
     private String frontside;
     @Column(columnDefinition = "TEXT")

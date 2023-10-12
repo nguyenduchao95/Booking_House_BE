@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
 
-    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.price AS price, h.address AS address, h.status AS status, " +
+    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.price AS price, h.address AS address, h.province AS province, h.status AS status, " +
             "SUM(CASE WHEN b.status = 'CONFIRMED' THEN b.total ELSE 0 END) AS revenue " +
             "FROM House h " +
             "LEFT JOIN Booking b ON h.id = b.house.id " +
@@ -32,6 +32,7 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         double getPrice();
 
         String getAddress();
+        String getProvince();
 
         double getRevenue();
 
