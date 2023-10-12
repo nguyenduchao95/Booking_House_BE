@@ -16,10 +16,13 @@ public interface IBookingService {
     void save(Booking booking);
     void deleteById(int id);
 
+    List<Booking> findAllByHouseId(int houseId);
+    Booking bookingHouse(Booking booking);
     List<Booking> getAll();
     Page<Booking> getByIdAccount(Pageable pageable , int idAccount);
     Booking findById(int id);
     List<Double> getDailyRevenueByOwnerAndWeek( int ownerId,int month,int year, int startDay,int endDay);
     Page<Booking> findBookingsByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
 
+    void  save(Booking booking);
 }

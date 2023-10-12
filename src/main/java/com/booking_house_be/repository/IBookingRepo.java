@@ -8,7 +8,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.time.LocalDate;
 
+import java.util.List;
+
 public interface IBookingRepo extends JpaRepository<Booking, Integer> {
+    List<Booking> findAllByHouseId(int houseId);
     @Query(nativeQuery = true , value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable , @Param("idAccount") int idAccount);
     Booking findById(int id);

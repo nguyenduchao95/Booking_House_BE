@@ -46,4 +46,9 @@ public class LoginController {
     public boolean checkUsername(@RequestParam("username") String username) {
         return accountService.getAccountByUsername(username) != null;
     }
+
+    @GetMapping("/login/check-email")
+    public boolean checkEmail(@RequestParam("email") String email) {
+        return accountService.getAccountByEmail(email) != null;
+    }
 }

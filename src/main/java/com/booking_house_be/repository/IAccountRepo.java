@@ -9,8 +9,6 @@ import java.util.List;
 
 
 public interface IAccountRepo extends JpaRepository<Account,Integer> {
-
-
     Account findByUsername(String username);
     Account findByEmail(String email);
     @Query(nativeQuery = true, value = "SELECT * FROM Account where username= :username and password= :password")
@@ -18,4 +16,6 @@ public interface IAccountRepo extends JpaRepository<Account,Integer> {
 
     @Query("SELECT a FROM Account a WHERE a.role.name = 'ROLE_ADMIN'")
     List<Account> findAdmins();
+
+    Account findByResetCode(String token);
 }

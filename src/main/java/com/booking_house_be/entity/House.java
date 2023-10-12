@@ -50,6 +50,7 @@ public class House {
         this.facility = houseDto.getFacility();
         this.price = houseDto.getPrice();
         this.sale = houseDto.getSale();
+        this.area = houseDto.getArea();
         this.thumbnail = houseDto.getThumbnail();
         this.owner = houseDto.getOwner();
     }
