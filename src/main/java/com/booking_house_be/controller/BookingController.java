@@ -5,6 +5,9 @@ import com.booking_house_be.entity.House;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +23,12 @@ public class BookingController {
     IBookingService bookingService;
     @Autowired
     IHouseService houseService;
+
     @GetMapping("/list")
-    public ResponseEntity<List<Booking>> listBooking(){
+    public ResponseEntity<List<Booking>> listBooking() {
         return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }
+
     @PostMapping("/checkin/{id}")
     public ResponseEntity<?> checkin(@PathVariable int id) {
         Optional<Booking> optionalBooking = bookingService.getBookingById(id);
@@ -61,9 +66,30 @@ public class BookingController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<?> cancel(@PathVariable int id) {
+        Optional<Booking> optionalBooking = bookingService.getBookingById(id);
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            House house = houseService.findById(booking.getHouse().getId());
+            if (booking.getStatus().equals("Chờ nhận phòng")) {
+                booking.setStatus("Đã huỷ");
+                house.setStatus("Đang trống");
+                bookingService.save(booking);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().body("Không được huỷ");
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/delete/{id}")
-    public ResponseEntity<?> deleteBookingById(@PathVariable int id){
+    public ResponseEntity<?> deleteBookingById(@PathVariable int id) {
         bookingService.deleteById(id);
         return ResponseEntity.ok("Đã xoá thành công");
     }
+
 }

@@ -1,8 +1,6 @@
 package com.booking_house_be.service.impl;
 
-import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Booking;
-import com.booking_house_be.entity.House;
 import com.booking_house_be.repository.IBookingRepo;
 import com.booking_house_be.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +33,5 @@ public class BookingService implements IBookingService {
     public void deleteById(int id) {
         bookingRepo.deleteById(id);
     }
+
 }
