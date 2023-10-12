@@ -5,12 +5,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-
-import java.time.LocalDate;
 import java.util.List;
+import java.time.LocalDate;
 
 public interface IBookingRepo extends JpaRepository<Booking, Integer> {
+    @Query(nativeQuery = true , value = "select * from booking where account_id= :idAccount")
+    Page<Booking> getByIdAccount(Pageable pageable , @Param("idAccount") int idAccount);
+    Booking findById(int id);
     @Query(nativeQuery = true, value =
             "SELECT DAY(b.start_time) AS day," +
                     " SUM(b.total) AS revenue FROM Booking b " +
