@@ -10,13 +10,8 @@ public interface IHouseService {
     House findById(int id);
 
     House createHouse(HouseDto houseDto);
+   Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable);
     House editHouse(HouseDto houseDto);
-
-    Page<IHouseRepo.HouseInfo> getHousesByOwnerId(int ownerId, Pageable pageable);
-
-    Page<House> findByOwnerIdAndNameContains(int id, String name, Pageable pageable);
-
-    Page<House> findByOwnerIdAndStatus(int id, String status, Pageable pageable);
 
     Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice);
 
