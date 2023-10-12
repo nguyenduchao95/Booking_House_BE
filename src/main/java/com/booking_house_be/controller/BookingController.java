@@ -2,9 +2,15 @@ package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.House;
+import com.booking_house_be.entity.Booking;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +23,7 @@ import org.springframework.data.repository.query.Param;
 @CrossOrigin("*")
 @RequestMapping("/api/bookings")
 public class BookingController {
+
     @Autowired
     IBookingService bookingService;
     @Autowired
@@ -29,9 +36,7 @@ public class BookingController {
 
     @PostMapping("/checkin/{id}")
     public ResponseEntity<?> checkin(@PathVariable int id) {
-        Optional<Booking> optionalBooking = bookingService.getBookingById(id);
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
+        Booking booking = bookingService.findById(id);
             House house = houseService.findById(booking.getHouse().getId());
             if (booking.getStatus().equals("Chờ nhận phòng")) {
                 booking.setStatus("Đang ở");
@@ -41,16 +46,11 @@ public class BookingController {
             } else {
                 return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái chờ nhận phòng");
             }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping("/checkout/{id}")
     public ResponseEntity<?> checkout(@PathVariable int id) {
-        Optional<Booking> optionalBooking = bookingService.getBookingById(id);
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
+        Booking booking  = bookingService.findById(id);
             House house = houseService.findById(booking.getHouse().getId());
             if (booking.getStatus().equals("Đang ở")) {
                 booking.setStatus("Đã trả phòng");
@@ -60,17 +60,12 @@ public class BookingController {
             } else {
                 return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái đang ở");
             }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping("/cancel/{id}")
     public ResponseEntity<?> cancel(@PathVariable int id) {
-        Optional<Booking> optionalBooking = bookingService.getBookingById(id);
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
-            House house = houseService.findById(booking.getHouse().getId());
+        Booking booking  = bookingService.findById(id);
+        House house = houseService.findById(booking.getHouse().getId());
             if (booking.getStatus().equals("Chờ nhận phòng")) {
                 booking.setStatus("Đã huỷ");
                 house.setStatus("Đang trống");
@@ -79,9 +74,6 @@ public class BookingController {
             } else {
                 return ResponseEntity.badRequest().body("Không được huỷ");
             }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping("/delete/{id}")
@@ -98,5 +90,24 @@ public class BookingController {
             @Param(value = "startDay") int startDay,
             @Param(value = "endDay") int endDay) {
         return bookingService.getDailyRevenueByOwnerAndWeek(ownerId, month, year, startDay, endDay);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll(){
+        return new ResponseEntity<>(bookingService.getAll() , HttpStatus.OK);
+    }
+    @GetMapping("/getByIdAccount/{idAccount}")
+    public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
+                                            @RequestParam(value = "size", defaultValue = "7") int size,
+                                            @PathVariable int idAccount){
+        Pageable pageable = PageRequest.of(page , size);
+        return new ResponseEntity<>(bookingService.getByIdAccount( pageable , idAccount) , HttpStatus.OK);
+    }
+    @GetMapping("/cancelBooking/{idBooking}")
+    public ResponseEntity<?> cancelBooking(@PathVariable int idBooking){
+        Booking booking = bookingService.findById(idBooking);
+        booking.setStatus("Đã hủy");
+        bookingService.save(booking);
+        return new ResponseEntity<>("Bạn đã hủy thuê nhà" , HttpStatus.OK);
     }
 }

@@ -19,5 +19,8 @@ public class AccountToken {
     private double wallet;
     private String status;
     private Role role;
+    private String province;
+    private String district;
+    private String ward;
 
 }

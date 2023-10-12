@@ -1,11 +1,9 @@
 package com.booking_house_be.configuration;
-
 import com.booking_house_be.configuration.filter.JwtAuthenticationFilter;
 import com.booking_house_be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -39,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**");
         http.authorizeRequests()
                 .antMatchers("/api/temp/login", "/api/login/**", "/api/register", "/api/bookings/**", "/api/accounts/**", "/api/houses/**", "/api/images/**").permitAll()
-                .antMatchers(HttpMethod.PUT ,"/api/accounts/**" ).permitAll()
+                .antMatchers("/api/accounts/**" ).permitAll()
                 .antMatchers("/category**").hasRole("ADMIN")
                 .antMatchers("/product**").hasAnyRole("ADMIN","VENDOR")
                 .antMatchers("/billDetail**").hasRole("CUSTOMER")
