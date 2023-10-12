@@ -5,20 +5,13 @@ import com.booking_house_be.entity.House;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import com.booking_house_be.service.IBookingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -96,11 +89,6 @@ public class BookingController {
         bookingService.deleteById(id);
         return ResponseEntity.ok("Đã xoá thành công");
     }
-
-
-    @Autowired
-    private IBookingService bookingService;
-
 
     @GetMapping("/{ownerId}/week")
     private List<Double> getDailyRevenueByOwnerAndWeek(

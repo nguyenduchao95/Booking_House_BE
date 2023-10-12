@@ -23,9 +23,6 @@ public class BookingService implements IBookingService {
     public List<Booking> getAllBooking() {
         return bookingRepo.findAll();
     }
-    @Autowired
-    IBookingRepo bookingRepo;
-
     @Override
     public Optional<Booking> getBookingById(int id) {
         return bookingRepo.findById(id);
