@@ -13,12 +13,6 @@ public class BookingController {
     @Autowired
     private IBookingService bookingService;
 
-    @GetMapping("/{ownerId}")
-    private List<Double> getMonthlyRevenuesByOwnerAndYear(
-            @PathVariable int ownerId,
-            @Param(value = "year") int year) {
-        return bookingService.getDailyRevenueByOwnerAndMonth(ownerId, year);
-    }
 
     @GetMapping("/{ownerId}/week")
     private List<Double> getDailyRevenueByOwnerAndWeek(
