@@ -52,12 +52,6 @@ public class BookingService implements IBookingService {
     }
 
 
-
-    @Override
-    public void save(Booking booking) {
-        bookingRepo.save(booking);
-    }
-
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
         List<Object[]> result = bookingRepo.getDailyRevenueByOwnerAndWeek(ownerId, year, month, startDay, endDay);
         List<Double> dailyRevenues = new ArrayList<>();

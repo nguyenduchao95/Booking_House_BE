@@ -2,7 +2,6 @@ package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.House;
-import com.booking_house_be.entity.Booking;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import org.springframework.data.repository.query.Param;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
@@ -69,6 +64,7 @@ public class BookingController {
         House house = houseService.findById(booking.getHouse().getId());
             if (booking.getStatus().equals("Chờ nhận phòng")) {
                 booking.setStatus("Đã huỷ");
+                booking.setTotal(0);
                 house.setStatus("Đang trống");
                 bookingService.save(booking);
                 return ResponseEntity.ok().build();
