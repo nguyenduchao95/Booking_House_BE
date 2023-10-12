@@ -15,14 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
-import java.util.List;
-
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BookingService implements IBookingService {
@@ -74,11 +69,6 @@ public class BookingService implements IBookingService {
     @Override
     public List<Double> getDailyRevenueByOwnerAndWeek(int ownerId, int month, int year, int startDay, int endDay) {
         return this.getDailyRevenuesByOwnerAndWeek(ownerId, month, year, startDay, endDay);
-    }
-
-    @Override
-    public void save(Booking booking) {
-        bookingRepo.save(booking);
     }
 
 

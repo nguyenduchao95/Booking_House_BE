@@ -24,5 +24,4 @@ public interface IBookingService {
     List<Double> getDailyRevenueByOwnerAndWeek( int ownerId,int month,int year, int startDay,int endDay);
     Page<Booking> findBookingsByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
 
-    void  save(Booking booking);
 }
