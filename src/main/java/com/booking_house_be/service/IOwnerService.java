@@ -12,4 +12,5 @@ public interface IOwnerService {
     Owner getOwnerByAccount(int idAccount);
     List<Owner> getAll ();
     List<Owner> getAllByStatus(@Param("status") String status);
+    Owner findOwnerById(int id);
 }

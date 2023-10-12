@@ -34,4 +34,9 @@ public class OwnerService implements IOwnerService {
     public List<Owner> getAllByStatus(String status) {
         return ownerRepo.getAllByStatus(status);
     }
+
+    @Override
+    public Owner findOwnerById(int id) {
+        return ownerRepo.findOwnerById(id);
+    }
 }

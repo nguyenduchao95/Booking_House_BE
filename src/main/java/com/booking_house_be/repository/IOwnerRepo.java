@@ -12,4 +12,6 @@ public interface IOwnerRepo extends JpaRepository<Owner, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM Owner where status= :status")
     List<Owner> getAllByStatus(@Param("status") String status);
+
+    Owner findOwnerById(int id);
 }

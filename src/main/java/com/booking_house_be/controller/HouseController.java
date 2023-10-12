@@ -22,7 +22,7 @@ public class HouseController {
     @GetMapping("/search")
     public Page<House> findHousesByPriceRange(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "12") int size,
+            @RequestParam(value = "size", defaultValue = "6") int size,
             @RequestParam(value = "nameSearch", defaultValue = "") String nameSearch,
             @RequestParam(value = "province", defaultValue = "") String province,
             @RequestParam(value = "minPrice") double minPrice,
