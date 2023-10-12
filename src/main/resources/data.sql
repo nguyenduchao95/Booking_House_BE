@@ -62,9 +62,7 @@ INSERT INTO review(id, comment, status, rating, create_at, booking_id) values
     (1, 'Qua dep', 'ok', 4.4, '2023-10-02', 1);
 
 
-alter table account
-    add frontside text  null after avatar;
 
-alter table account
-    add backside text  null after frontside;
+ALTER TABLE owner DROP COLUMN frontside;
+ALTER TABLE owner DROP COLUMN backside;
 

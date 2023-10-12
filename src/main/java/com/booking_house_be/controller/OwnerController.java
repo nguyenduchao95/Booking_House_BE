@@ -2,6 +2,8 @@ package com.booking_house_be.controller;
 
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
+import com.booking_house_be.entity.Owner;
+import com.booking_house_be.repository.IOwnerRepo;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class OwnerController {
     @Autowired
     private IHouseService houseService;
+
     @PostMapping("/create-house")
     public ResponseEntity<?> createHouse(@RequestBody HouseDto houseDto) {
         try {

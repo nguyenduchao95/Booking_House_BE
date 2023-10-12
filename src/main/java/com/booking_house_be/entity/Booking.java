@@ -1,8 +1,7 @@
 package com.booking_house_be.entity;
 import lombok.Data;
 import javax.persistence.*;
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -10,8 +9,8 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate startTime;
+    private LocalDate endTime;
     private double total;
     private String status;
     @ManyToOne

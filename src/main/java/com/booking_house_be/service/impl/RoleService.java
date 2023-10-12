@@ -1,5 +1,19 @@
 package com.booking_house_be.service.impl;
 
-public class RoleService {
+import com.booking_house_be.entity.Role;
+import com.booking_house_be.repository.IRoleRepo;
+import com.booking_house_be.service.IRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RoleService implements IRoleService {
+    @Autowired
+    IRoleRepo iRoleRepo ;
+
+    @Override
+    public Role findById(int id) {
+        return iRoleRepo.findById(id);
+    }
 }
 
