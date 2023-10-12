@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +52,12 @@ public class BookingService implements IBookingService {
     }
 
 
+
+    @Override
+    public void save(Booking booking) {
+        bookingRepo.save(booking);
+    }
+
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
         List<Object[]> result = bookingRepo.getDailyRevenueByOwnerAndWeek(ownerId, year, month, startDay, endDay);
         List<Double> dailyRevenues = new ArrayList<>();
@@ -71,6 +79,12 @@ public class BookingService implements IBookingService {
         }
         return dailyRevenues;
     }
+
+    @Override
+    public Page<Booking> findBookingsByOwnerId(int ownerId, Pageable pageable) {
+        return bookingRepo.findBookingsByOwnerId(ownerId,pageable);
+    }
+
 
     @Override
     public Page<Booking> getByIdAccount(Pageable pageable , int idAccount) {

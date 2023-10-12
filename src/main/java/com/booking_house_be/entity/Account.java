@@ -1,7 +1,5 @@
 package com.booking_house_be.entity;
 import lombok.Data;
-import lombok.Value;
-
 import javax.persistence.*;
 
 

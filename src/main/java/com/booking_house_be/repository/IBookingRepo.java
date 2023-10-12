@@ -1,31 +1,17 @@
 package com.booking_house_be.repository;
-
 import com.booking_house_be.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     @Query(nativeQuery = true , value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable , @Param("idAccount") int idAccount);
     Booking findById(int id);
-
-
-
-
-
-
-
     @Query(nativeQuery = true, value =
             "SELECT DAY(b.start_time) AS day," +
                     " SUM(b.total) AS revenue FROM Booking b " +
@@ -40,4 +26,22 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             @Param("year") int year,
             @Param("startDay") int startDay,
             @Param("endDay") int endDay);
+
+
+
+    @Query( "SELECT b FROM Booking b WHERE b.house.owner.id = :ownerId")
+    Page<Booking> findBookingsByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
+
+    public interface BookingRepository extends JpaRepository<Booking, Integer> {
+        @Query("SELECT b FROM Booking b " +
+                "WHERE (b.house.name LIKE CONCAT('%', :nameSearch, '%') OR :nameSearch IS NULL) " +
+                "AND ((:startDate IS NULL AND :endDate IS NULL) OR (b.startTime >= :startDate AND b.endTime <= :endDate)) " +
+                "AND (b.status LIKE CONCAT('%', :status, '%') OR :status IS NULL)")
+        List<Booking> findBookingsByNameAndDateRangeAndStatus(@Param("nameSearch") String nameSearch,
+                                                              @Param("startDate") LocalDate startDate,
+                                                              @Param("endDate") LocalDate endDate,
+                                                              @Param("status") String status);
+    }
+
+
 }
