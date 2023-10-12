@@ -1,8 +1,11 @@
 package com.booking_house_be.service.impl;
 
+import com.booking_house_be.entity.Booking;
 import com.booking_house_be.repository.IBookingRepo;
 import com.booking_house_be.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ public class BookingService implements IBookingService {
     public List<Double> getDailyRevenueByOwnerAndWeek(int ownerId,int month,int year, int startDay,int endDay) {
         return this.getDailyRevenuesByOwnerAndWeek( ownerId, month, year,  startDay, endDay);
     }
+
+
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
         List<Object[]> result = bookingRepo.getDailyRevenueByOwnerAndWeek(ownerId, year, month, startDay, endDay);
         List<Double> dailyRevenues = new ArrayList<>();
@@ -38,5 +43,11 @@ public class BookingService implements IBookingService {
         }
         return dailyRevenues;
     }
+
+    @Override
+    public Page<Booking> findBookingsByOwnerId(int ownerId, Pageable pageable) {
+        return bookingRepo.findBookingsByOwnerId(ownerId,pageable);
+    }
+
 
 }
