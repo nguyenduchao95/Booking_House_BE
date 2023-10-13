@@ -29,6 +29,8 @@ public class Owner {
     private String status;
     @OneToOne
     private Account account;
+    @Column(columnDefinition = "TEXT")
+    private String avatar;
 
     public Owner(String status) {
         this.status = status;
