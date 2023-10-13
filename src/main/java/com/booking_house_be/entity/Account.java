@@ -24,7 +24,6 @@ public class Account {
     private String status;
     @ManyToOne
     private Role role;
-    private String resetCode;
 
 
 }

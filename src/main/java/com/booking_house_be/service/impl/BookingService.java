@@ -1,4 +1,6 @@
 package com.booking_house_be.service.impl;
+
+import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.repository.IBookingRepo;
 import com.booking_house_be.service.IBookingService;
@@ -6,14 +8,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @Service
 public class BookingService implements IBookingService {
     @Autowired
-    IBookingRepo bookingRepo;
+    private IBookingRepo bookingRepo;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private AccountService accountService;
 
+    @Override
+    public List<Booking> findAllByHouseIdAndStatus(int houseId, String status) {
+        return bookingRepo.findAllByHouseIdAndStatus(houseId, status);
+    }
+
+    @Override
+    public Booking bookingHouse(Booking booking) {
+        Account account = accountService.getById(booking.getAccount().getId());
+        booking.setAccount(account);
+        try {
+            emailService.sendBill(account.getEmail(), booking);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return bookingRepo.save(booking);
+    }
+
+    @Override
+    public List<Booking> getAllBooking() {
+        return bookingRepo.findAll();
+    }
+
+    @Override
+    public void save(Booking booking) {
+        bookingRepo.save(booking);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        bookingRepo.deleteById(id);
+    }
     @Override
     public List<Booking> getAll() {
         return bookingRepo.findAll();
@@ -23,10 +68,6 @@ public class BookingService implements IBookingService {
         return this.getDailyRevenuesByOwnerAndWeek( ownerId, month, year,  startDay, endDay);
     }
 
-    @Override
-    public void save(Booking booking) {
-        bookingRepo.save(booking);
-    }
 
     @Override
     public Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, int yearStart, int monthStart, int dayStart, int yearEnd, int monthEnd, int dayEnd, Pageable pageable) {

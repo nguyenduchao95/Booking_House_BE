@@ -1,4 +1,5 @@
 package com.booking_house_be.service.impl;
+
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Image;
@@ -62,6 +63,7 @@ public class HouseService implements IHouseService {
     public Page<House> findHousesByNameAndPriceRangeAndLocal(Pageable pageable, String nameSearch, String province, double minPrice, double maxPrice) {
         return houseRepo.findHousesByNameAndPriceRangeAndLocal(pageable, nameSearch, province, minPrice, maxPrice);
     }
+
     public House updateStatus(int id, String status) {
         House house = houseRepo.findById(id).orElse(null);
         if (house != null) {
@@ -70,9 +72,10 @@ public class HouseService implements IHouseService {
         }
         return null;
     }
+
     @Override
-    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable){
-        return houseRepo.findByOwnerIdAndNameAndStatus( id, name,  status, pageable);
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus(int id, String name, String status, Pageable pageable) {
+        return houseRepo.findByOwnerIdAndNameAndStatus(id, name, status, pageable);
     }
 
     @Override

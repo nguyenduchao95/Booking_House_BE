@@ -3,16 +3,13 @@ package com.booking_house_be.controller;
 import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Owner;
 import com.booking_house_be.entity.Role;
-import com.booking_house_be.repository.IOwnerRepo;
 import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,10 +86,9 @@ public class AccountController {
         Owner ownerCheck = ownerService.getOwnerByAccount(owner.getAccount().getId());
         if (ownerCheck != null) {
             owner.setId(ownerCheck.getId());
-            ownerService.save(owner);
-            return new ResponseEntity<>(true, HttpStatus.OK);
         }
-        return new ResponseEntity<>(false, HttpStatus.OK);
+        ownerService.save(owner);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/getByAccount/{idAccount}")
