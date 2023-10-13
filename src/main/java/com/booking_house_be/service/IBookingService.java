@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IBookingService {
-    List<Booking> findAllByHouseIdAndStatus(int houseId, String status);
+    List<Booking> findAllByHouseIdAndStatus(int houseId);
     List<Booking> getAllBooking();
     void save(Booking booking);
     void deleteById(int id);

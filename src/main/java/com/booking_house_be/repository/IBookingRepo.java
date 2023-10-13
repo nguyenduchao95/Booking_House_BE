@@ -16,12 +16,13 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable, @Param("idAccount") int idAccount);
 
-    List<Booking> findAllByHouseIdAndStatus(int houseId, String status);
+    @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
+    List<Booking> findAllByHouseIdAndStatus(@Param("houseId") int houseId);
     Booking findById(int id);
 
     @Query(nativeQuery = true, value =
             "SELECT DAY(b.start_time) AS day," +
-                    " SUM(b.total) AS revenue FROM Booking b " +
+                    " SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue FROM Booking b " +
                     "LEFT JOIN house h ON h.id = b.house_id " +
                     "WHERE YEAR(b.end_time) = :year AND " +
                     "MONTH(b.start_time) = :month AND h.owner_id = :ownerId AND " +

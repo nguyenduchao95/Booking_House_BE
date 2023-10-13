@@ -5,6 +5,7 @@ import com.booking_house_be.entity.House;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,17 @@ public class BookingController {
                 return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái chờ nhận phòng");
             }
     }
+    @PostMapping("/wait/{id}")
+    public ResponseEntity<?> waitOwnerConfirmBooking(@PathVariable int id) {
+        Booking booking = bookingService.findById(id);
+            if (booking.getStatus().equals("Chờ xác nhận")) {
+                booking.setStatus("Chờ nhận phòng");
+                bookingService.save(booking);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái chờ nhận phòng");
+            }
+    }
 
     @PostMapping("/checkout/{id}")
     public ResponseEntity<?> checkout(@PathVariable int id) {
@@ -61,7 +73,7 @@ public class BookingController {
     public ResponseEntity<?> cancel(@PathVariable int id) {
         Booking booking  = bookingService.findById(id);
         House house = houseService.findById(booking.getHouse().getId());
-            if (booking.getStatus().equals("Chờ nhận phòng")) {
+            if (booking.getStatus().equals("Chờ nhận phòng") || booking.getStatus().equals("Chờ xác nhận")) {
                 booking.setStatus("Đã hủy");
                 booking.setTotal(0);
                 house.setStatus("Đang trống");
@@ -78,10 +90,9 @@ public class BookingController {
         return ResponseEntity.ok("Đã xoá thành công");
     }
     @GetMapping("/house/{houseId}")
-    public ResponseEntity<?> getBookingsByHouseId(@PathVariable int houseId,
-                                                  @RequestParam(name="status", defaultValue = "Chờ nhận phòng") String status) {
+    public ResponseEntity<?> getBookingsByHouseId(@PathVariable int houseId) {
         try {
-            return ResponseEntity.ok(bookingService.findAllByHouseIdAndStatus(houseId, status));
+            return ResponseEntity.ok(bookingService.findAllByHouseIdAndStatus(houseId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
@@ -118,7 +129,10 @@ public class BookingController {
                                                   @RequestParam(value = "dayEnd", required = false) int dayEnd,
                                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "startTime";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         status = status.replace("_", " ");
         if (nameSearch.equals("")) {
             nameSearch = null;
@@ -146,7 +160,10 @@ public class BookingController {
                                                @RequestParam("status") String status,
                                                @RequestParam(value = "page", defaultValue = "0") int page,
                                                @RequestParam(value = "size", defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "startTime";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         return bookingService.findByHouseAndStatus(ownerId, nameSearch, status, pageable);
     }
 
@@ -160,7 +177,10 @@ public class BookingController {
     public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
                                             @RequestParam(value = "size", defaultValue = "7") int size,
                                             @PathVariable int idAccount) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "start_time";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
     }
 

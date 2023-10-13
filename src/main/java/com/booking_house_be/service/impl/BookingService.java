@@ -25,8 +25,8 @@ public class BookingService implements IBookingService {
     private AccountService accountService;
 
     @Override
-    public List<Booking> findAllByHouseIdAndStatus(int houseId, String status) {
-        return bookingRepo.findAllByHouseIdAndStatus(houseId, status);
+    public List<Booking> findAllByHouseIdAndStatus(int houseId) {
+        return bookingRepo.findAllByHouseIdAndStatus(houseId);
     }
 
     @Override
