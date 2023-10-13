@@ -83,9 +83,4 @@ public class AccountService implements IAccountService {
         return accountRepo.findAdmins();
     }
 
-    @Override
-    public Account findByResetCode(String token) {
-        return accountRepo.findByResetCode(token);
-    }
-
 }

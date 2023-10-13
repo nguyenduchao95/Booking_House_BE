@@ -16,6 +16,4 @@ public interface IAccountRepo extends JpaRepository<Account,Integer> {
 
     @Query("SELECT a FROM Account a WHERE a.role.name = 'ROLE_ADMIN'")
     List<Account> findAdmins();
-
-    Account findByResetCode(String token);
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class BookingService implements IBookingService {
     private AccountService accountService;
 
     @Override
-    public List<Booking> findAllByHouseId(int houseId) {
-        return bookingRepo.findAllByHouseId(houseId);
+    public List<Booking> findAllByHouseIdAndStatus(int houseId, String status) {
+        return bookingRepo.findAllByHouseIdAndStatus(houseId, status);
     }
 
     @Override
@@ -37,6 +38,8 @@ public class BookingService implements IBookingService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         return bookingRepo.save(booking);

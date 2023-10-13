@@ -21,9 +21,10 @@ public class BookingController {
     private IBookingService bookingService;
 
     @GetMapping("/house/{houseId}")
-    public ResponseEntity<?> getBookingsByHouseId(@PathVariable int houseId) {
+    public ResponseEntity<?> getBookingsByHouseId(@PathVariable int houseId,
+                                                  @RequestParam(name="status", defaultValue = "Chờ nhận phòng") String status) {
         try {
-            return ResponseEntity.ok(bookingService.findAllByHouseId(houseId));
+            return ResponseEntity.ok(bookingService.findAllByHouseIdAndStatus(houseId, status));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }

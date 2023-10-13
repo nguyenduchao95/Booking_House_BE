@@ -10,6 +10,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class BillPDF {
@@ -48,7 +49,7 @@ public class BillPDF {
         table.addCell(String.valueOf(1));
         table.addCell(booking.getAccount().getLastname() + " " + booking.getAccount().getFirstname());
         table.addCell(booking.getHouse().getName());
-        table.addCell(booking.getStartTime() + " - " + booking.getEndTime());
+        table.addCell(formatTime(booking.getStartTime()) + " - " + formatTime(booking.getEndTime()));
         Locale locale = new Locale("vi", "VN");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
         table.addCell(String.valueOf(currencyFormatter.format(booking.getTotal())));
@@ -80,6 +81,11 @@ public class BillPDF {
         document.add(table);
 
         document.close();
+    }
 
+    private static String formatTime(LocalDateTime localDateTime) {
+        return localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue() + "/"
+                + localDateTime.getYear() + " " + localDateTime.getHour() + ":"
+                + (localDateTime.getMinute() < 10 ? "0" : "") + localDateTime.getMinute();
     }
 }

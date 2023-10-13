@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 public interface IBookingService {
-    List<Booking> findAllByHouseId(int houseId);
+    List<Booking> findAllByHouseIdAndStatus(int houseId, String status);
     Booking bookingHouse(Booking booking);
     List<Booking> getAll();
     Page<Booking> getByIdAccount(Pageable pageable , int idAccount);

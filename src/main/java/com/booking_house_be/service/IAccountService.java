@@ -21,5 +21,4 @@ public interface IAccountService extends UserDetailsService {
     Account getAccountByEmail(String email);
     void save(Account account);
     List <Account>findAdmins();
-    Account findByResetCode(String token);
 }

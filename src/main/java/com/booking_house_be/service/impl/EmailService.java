@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 
 @Service
 public class EmailService {
@@ -29,7 +30,7 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-    public void sendBill(String toEmail, Booking booking) throws MessagingException, IOException {
+    public void sendBill(String toEmail, Booking booking) throws MessagingException, IOException, ParseException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 

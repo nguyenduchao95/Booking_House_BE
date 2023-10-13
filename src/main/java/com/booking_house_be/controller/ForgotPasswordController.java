@@ -39,9 +39,4 @@ public class ForgotPasswordController {
 
         return ResponseEntity.ok("Email đã được gửi");
     }
-
-    @GetMapping("/check-token")
-    public boolean checkToken(@RequestParam("token") String token){
-        return accountService.findByResetCode(token) != null;
-    }
 }
