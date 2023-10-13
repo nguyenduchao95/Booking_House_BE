@@ -1,21 +1,13 @@
 package com.booking_house_be.service.impl;
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.repository.IBookingRepo;
-
-import com.booking_house_be.repository.IBookingRepo;
 import com.booking_house_be.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BookingService implements IBookingService {
@@ -31,11 +23,20 @@ public class BookingService implements IBookingService {
         return this.getDailyRevenuesByOwnerAndWeek( ownerId, month, year,  startDay, endDay);
     }
 
-
-
     @Override
     public void save(Booking booking) {
         bookingRepo.save(booking);
+    }
+
+    @Override
+    public Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, int yearStart, int monthStart, int dayStart, int yearEnd, int monthEnd, int dayEnd, Pageable pageable) {
+        return bookingRepo.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId,nameSearch,status,yearStart,monthStart,dayStart,yearEnd,monthEnd,dayEnd,pageable);
+    }
+
+
+    @Override
+    public Page<Booking> findByHouseAndStatus(int ownerId, String nameSearch, String status, Pageable pageable) {
+        return bookingRepo.findByHouseAndStatus(ownerId, nameSearch, status, pageable);
     }
 
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {

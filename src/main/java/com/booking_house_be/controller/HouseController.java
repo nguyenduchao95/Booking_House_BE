@@ -28,7 +28,6 @@ public class HouseController {
             @RequestParam(value = "minPrice") double minPrice,
             @RequestParam(value = "maxPrice", required = false) double maxPrice) {
         province = province.replace("_", " ");
-        nameSearch = nameSearch.replace("_", " ");
         if (maxPrice == 0) {
             maxPrice = Double.MAX_VALUE;
         }

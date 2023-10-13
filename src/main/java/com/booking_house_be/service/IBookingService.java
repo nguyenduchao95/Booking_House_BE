@@ -4,6 +4,7 @@ import com.booking_house_be.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.booking_house_be.entity.Booking;
@@ -20,6 +21,11 @@ public interface IBookingService {
     Booking findById(int id);
     List<Double> getDailyRevenueByOwnerAndWeek( int ownerId,int month,int year, int startDay,int endDay);
     Page<Booking> findBookingsByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
-
     void  save(Booking booking);
+
+    Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(
+            int ownerId, String nameSearch, String status, int yearStart,
+            int monthStart, int dayStart,int yearEnd, int monthEnd, int dayEnd, Pageable pageable);
+    Page<Booking> findByHouseAndStatus(int ownerId, String nameSearch, String status, Pageable pageable );
+
 }
