@@ -1,10 +1,15 @@
 package com.booking_house_be.entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +29,4 @@ public class Account {
     private String status;
     @ManyToOne
     private Role role;
-
-
 }
