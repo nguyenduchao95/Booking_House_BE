@@ -106,9 +106,9 @@ public class AccountController {
     @PostMapping("/agreeRegister")
     public ResponseEntity<?> agreeRegister(@RequestBody Owner owner) {
         ownerService.save(owner);
-        Account account = owner.getAccount();
         Role role = roleRepo.findById(3);
-        account.setRole(role);
+        Account account = new Account(owner.getAccount().getId(), owner.getAccount().getUsername() , owner.getAccount().getPassword() , owner.getFirstname() , owner.getLastname() , owner.getAddress() , owner.getProvince() ,
+                owner.getDistrict() , owner.getWard() ,owner.getEmail() , owner.getPhone() , owner.getAvatar() , owner.getAccount().getWallet() , owner.getAccount().getStatus() , role );
         accountService.save(account);
         return new ResponseEntity<>("Xác nhận thành công", HttpStatus.OK);
     }
