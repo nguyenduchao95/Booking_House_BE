@@ -5,6 +5,7 @@ import com.booking_house_be.entity.House;
 import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -118,7 +119,10 @@ public class BookingController {
                                                   @RequestParam(value = "dayEnd", required = false) int dayEnd,
                                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "startTime";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         status = status.replace("_", " ");
         if (nameSearch.equals("")) {
             nameSearch = null;
@@ -146,7 +150,10 @@ public class BookingController {
                                                @RequestParam("status") String status,
                                                @RequestParam(value = "page", defaultValue = "0") int page,
                                                @RequestParam(value = "size", defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "startTime";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         return bookingService.findByHouseAndStatus(ownerId, nameSearch, status, pageable);
     }
 
@@ -160,7 +167,10 @@ public class BookingController {
     public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
                                             @RequestParam(value = "size", defaultValue = "7") int size,
                                             @PathVariable int idAccount) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+        String sortBy = "start_time";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
         return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
     }
 
