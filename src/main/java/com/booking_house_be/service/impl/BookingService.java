@@ -9,11 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BookingService implements IBookingService {
@@ -46,6 +46,20 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public List<Booking> getAllBooking() {
+        return bookingRepo.findAll();
+    }
+
+    @Override
+    public void save(Booking booking) {
+        bookingRepo.save(booking);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        bookingRepo.deleteById(id);
+    }
+    @Override
     public List<Booking> getAll() {
         return bookingRepo.findAll();
     }
@@ -55,10 +69,6 @@ public class BookingService implements IBookingService {
         return this.getDailyRevenuesByOwnerAndWeek(ownerId, month, year, startDay, endDay);
     }
 
-    @Override
-    public void save(Booking booking) {
-        bookingRepo.save(booking);
-    }
 
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
         List<Object[]> result = bookingRepo.getDailyRevenueByOwnerAndWeek(ownerId, year, month, startDay, endDay);

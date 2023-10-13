@@ -86,10 +86,9 @@ public class AccountController {
         Owner ownerCheck = ownerService.getOwnerByAccount(owner.getAccount().getId());
         if (ownerCheck != null) {
             owner.setId(ownerCheck.getId());
-            ownerService.save(owner);
-            return new ResponseEntity<>(true, HttpStatus.OK);
         }
-        return new ResponseEntity<>(false, HttpStatus.OK);
+        ownerService.save(owner);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/getByAccount/{idAccount}")
