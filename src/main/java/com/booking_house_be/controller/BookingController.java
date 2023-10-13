@@ -62,7 +62,7 @@ public class BookingController {
         Booking booking  = bookingService.findById(id);
         House house = houseService.findById(booking.getHouse().getId());
             if (booking.getStatus().equals("Chờ nhận phòng")) {
-                booking.setStatus("Đã huỷ");
+                booking.setStatus("Đã hủy");
                 booking.setTotal(0);
                 house.setStatus("Đang trống");
                 bookingService.save(booking);
