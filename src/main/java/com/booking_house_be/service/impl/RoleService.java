@@ -6,6 +6,8 @@ import com.booking_house_be.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService implements IRoleService {
     @Autowired
@@ -14,6 +16,11 @@ public class RoleService implements IRoleService {
     @Override
     public Role findById(int id) {
         return iRoleRepo.findById(id);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return iRoleRepo.findAll();
     }
 }
 

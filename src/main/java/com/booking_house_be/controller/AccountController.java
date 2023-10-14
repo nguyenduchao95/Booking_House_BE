@@ -1,12 +1,18 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Account;
+import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.Owner;
 import com.booking_house_be.entity.Role;
 import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +36,19 @@ public class AccountController {
     @GetMapping("/admins")
     public List<Account> findAdmins() {
         return accountService.findAdmins();
+    }
+ @GetMapping("/by-role")
+    public Page<Account> getAllAccount(@Param("roleId") int roleId,
+                                       @Param("nameSearch") String nameSearch,
+                                       @RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+
+     Pageable pageable;
+     pageable = PageRequest.of(page, size);
+     if (roleId != 0 && !nameSearch.trim().equals("")) return accountService.findByLastnameContainingAndRoleId(nameSearch,roleId, pageable);
+     else if (roleId != 0)return accountService.findByRoleId(roleId,  pageable);
+     else if (!nameSearch.trim().equals("")) return accountService.findByLastnameContaining(nameSearch,pageable);
+     else return accountService.findAll(pageable);
     }
 
     @GetMapping("/getById/{id}")
@@ -120,5 +139,18 @@ public class AccountController {
         ownerService.save(owner);
         return new ResponseEntity<>("Từ chối thành công", HttpStatus.OK);
     }
-
+    @GetMapping("/unBlock/{accId}")
+    public ResponseEntity<?> unBlockAccount(@PathVariable int accId) {
+        Account account = accountService.getById(accId);
+        account.setStatus("Đang hoạt động");
+        accountService.save(account);
+        return new ResponseEntity<>("Mở khóa tài khoản thành công", HttpStatus.OK);
+    }
+    @GetMapping("/block/{accId}")
+    public ResponseEntity<?> blockAccount(@PathVariable int accId) {
+        Account account = accountService.getById(accId);
+        account.setStatus("Bị khóa");
+        accountService.save(account);
+        return new ResponseEntity<>("Khóa tài khoản thành công", HttpStatus.OK);
+    }
 }
