@@ -116,7 +116,6 @@ public class BookingController {
             @Param(value = "endDay") int endDay) {
         return bookingService.getDailyRevenueByOwnerAndWeek(ownerId, month, year, startDay, endDay);
     }
-
     @GetMapping("/{ownerId}/search")
     private Page<Booking> searchBookingsByOwnerId(@PathVariable int ownerId,
                                                   @RequestParam("nameSearch") String nameSearch,

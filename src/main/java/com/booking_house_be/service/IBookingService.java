@@ -24,6 +24,4 @@ public interface IBookingService {
             int ownerId, String nameSearch, String status, int yearStart,
             int monthStart, int dayStart,int yearEnd, int monthEnd, int dayEnd, Pageable pageable);
     Page<Booking> findByHouseAndStatus(int ownerId, String nameSearch, String status, Pageable pageable );
-
-
 }

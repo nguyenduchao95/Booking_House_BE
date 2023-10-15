@@ -16,8 +16,11 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable, @Param("idAccount") int idAccount);
 
+
+
     @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
     List<Booking> findAllByHouseIdAndStatus(@Param("houseId") int houseId);
+
     Booking findById(int id);
 
     @Query(nativeQuery = true, value =
@@ -34,6 +37,7 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             @Param("year") int year,
             @Param("startDay") int startDay,
             @Param("endDay") int endDay);
+
     @Query("SELECT b FROM Booking b " +
             "JOIN House h ON h.id = b.house.id " +
             "WHERE (:nameSearch IS NULL OR h.name LIKE CONCAT('%', :nameSearch, '%')) " +
@@ -69,19 +73,19 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             Pageable pageable
     );
 
-    @Query( "SELECT b FROM Booking b WHERE b.house.owner.id = :ownerId")
+    @Query("SELECT b FROM Booking b WHERE b.house.owner.id = :ownerId")
     Page<Booking> findBookingsByOwnerId(@Param("ownerId") int ownerId, Pageable pageable);
 
-    public interface BookingRepository extends JpaRepository<Booking, Integer> {
-        @Query("SELECT b FROM Booking b " +
-                "WHERE (b.house.name LIKE CONCAT('%', :nameSearch, '%') OR :nameSearch IS NULL) " +
-                "AND ((:startDate IS NULL AND :endDate IS NULL) OR (b.startTime >= :startDate AND b.endTime <= :endDate)) " +
-                "AND (b.status LIKE CONCAT('%', :status, '%') OR :status IS NULL)")
-        List<Booking> findBookingsByNameAndDateRangeAndStatus(@Param("nameSearch") String nameSearch,
-                                                              @Param("startDate") LocalDate startDate,
-                                                              @Param("endDate") LocalDate endDate,
-                                                              @Param("status") String status);
-    }
+//    public interface BookingRepository extends JpaRepository<Booking, Integer> {
+//        @Query("SELECT b FROM Booking b " +
+//                "WHERE (b.house.name LIKE CONCAT('%', :nameSearch, '%') OR :nameSearch IS NULL) " +
+//                "AND ((:startDate IS NULL AND :endDate IS NULL) OR (b.startTime >= :startDate AND b.endTime <= :endDate)) " +
+//                "AND (b.status LIKE CONCAT('%', :status, '%') OR :status IS NULL)")
+//        List<Booking> findBookingsByNameAndDateRangeAndStatus(@Param("nameSearch") String nameSearch,
+//                                                              @Param("startDate") LocalDate startDate,
+//                                                              @Param("endDate") LocalDate endDate,
+//                                                              @Param("status") String status);
+//    }
 
 
 }

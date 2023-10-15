@@ -80,6 +80,7 @@ public class BookingService implements IBookingService {
         return bookingRepo.findByHouseAndStatus(ownerId, nameSearch, status, pageable);
     }
 
+
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
         List<Object[]> result = bookingRepo.getDailyRevenueByOwnerAndWeek(ownerId, year, month, startDay, endDay);
         List<Double> dailyRevenues = new ArrayList<>();
