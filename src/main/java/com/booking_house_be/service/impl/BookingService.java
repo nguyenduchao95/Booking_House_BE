@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -68,16 +70,9 @@ public class BookingService implements IBookingService {
         return this.getDailyRevenuesByOwnerAndWeek( ownerId, month, year,  startDay, endDay);
     }
 
-
     @Override
-    public Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, int yearStart, int monthStart, int dayStart, int yearEnd, int monthEnd, int dayEnd, Pageable pageable) {
-        return bookingRepo.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId,nameSearch,status,yearStart,monthStart,dayStart,yearEnd,monthEnd,dayEnd,pageable);
-    }
-
-
-    @Override
-    public Page<Booking> findByHouseAndStatus(int ownerId, String nameSearch, String status, Pageable pageable) {
-        return bookingRepo.findByHouseAndStatus(ownerId, nameSearch, status, pageable);
+    public Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, LocalDateTime startTime, LocalDateTime endTime, Pageable pageable) {
+        return bookingRepo.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId,nameSearch,status,startTime,endTime,pageable);
     }
 
     List<Double> getDailyRevenuesByOwnerAndWeek(int ownerId, int year, int month, int startDay, int endDay) {
@@ -102,10 +97,6 @@ public class BookingService implements IBookingService {
         return dailyRevenues;
     }
 
-    @Override
-    public Page<Booking> findBookingsByOwnerId(int ownerId, Pageable pageable) {
-        return bookingRepo.findBookingsByOwnerId(ownerId,pageable);
-    }
 
 
     @Override

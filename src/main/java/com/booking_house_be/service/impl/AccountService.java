@@ -7,6 +7,7 @@ import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +34,7 @@ public class AccountService implements IAccountService {
     public void edit(Account account) {
         accountRepo.save(account);
     }
+
     @Override
     public Optional<Account> getAccountById(int id) {
         return accountRepo.findById(id);
@@ -80,7 +82,28 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<Account> findAdmins() {
-        return accountRepo.findAdmins();
+        return accountRepo.findByRoleName("ROLE_ADMIN");
     }
+
+    @Override
+    public Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable) {
+        return accountRepo.findByLastnameContaining(nameSearch, pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleName(String roleName, Pageable pageable) {
+        return accountRepo.findAllByRoleName(roleName, pageable);
+    }
+
+    @Override
+    public Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable) {
+        return accountRepo.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
+    }
+
+    @Override
+    public Page<Account> findAll(Pageable pageable) {
+        return accountRepo.findAll(pageable);
+    }
+
 
 }
