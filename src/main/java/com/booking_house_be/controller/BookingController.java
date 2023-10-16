@@ -1,4 +1,6 @@
 package com.booking_house_be.controller;
+
+import com.booking_house_be.dto.BookingDto;
 import com.booking_house_be.dto.SearchRequest;
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.House;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -125,18 +128,17 @@ public class BookingController {
             @PathVariable int ownerId,
             @RequestBody SearchRequest requestData,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10")int size ) {
+            @RequestParam(value = "size", defaultValue = "10") int size) {
         String nameSearch = requestData.getNameSearch();
         String status = requestData.getStatus();
-        LocalDateTime selectedDateStart =requestData.getSelectedDateStart();
+        LocalDateTime selectedDateStart = requestData.getSelectedDateStart();
         LocalDateTime selectedDateEnd = requestData.getSelectedDateEnd();
         Pageable pageable;
         String sortBy = "startTime";
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
-            return bookingService.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId, nameSearch, status, selectedDateStart, selectedDateEnd, pageable);
+        return bookingService.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId, nameSearch, status, selectedDateStart, selectedDateEnd, pageable);
     }
-
 
 
     @GetMapping
@@ -144,7 +146,7 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/getByIdAccount/{idAccount}")
+   /* @GetMapping("/getByIdAccount/{idAccount}")
     public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
                                             @RequestParam(value = "size", defaultValue = "7") int size,
                                             @PathVariable int idAccount) {
@@ -153,6 +155,23 @@ public class BookingController {
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
         return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
+    }*/
+
+    @PostMapping("/getByIdAccount/{idAccount}")
+    public ResponseEntity<?> getHistoryRentalAccount(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value = "size", defaultValue = "7") int size,
+                                                     @PathVariable int idAccount
+            , @RequestBody BookingDto bookingDto) {
+        Pageable pageable;
+        String sortBy = "start_time";
+        Sort sort = Sort.by(Sort.Order.asc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
+        return new ResponseEntity<>(bookingService.getRentalHistoryIdAccount(pageable
+                , idAccount
+                , bookingDto.getHouseName()
+                , bookingDto.getStartTime()
+                , bookingDto.getEndTime()
+                , bookingDto.getStatus()), HttpStatus.OK);
     }
 
     @GetMapping("/cancelBooking/{idBooking}")

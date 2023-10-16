@@ -105,6 +105,11 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public Page<Booking> getRentalHistoryIdAccount(Pageable pageable, int idAccount, String houseName , LocalDateTime startTime, LocalDateTime endTime, String status) {
+        return bookingRepo.getHistoryRentalByIdAccount(pageable , idAccount , houseName , startTime , endTime , status);
+    }
+
+    @Override
     public Booking findById(int id) {
         return bookingRepo.findById(id);
     }

@@ -23,6 +23,7 @@ public interface IBookingService {
     List<Booking> getAll();
 
     Page<Booking> getByIdAccount(Pageable pageable, int idAccount);
+    Page<Booking> getRentalHistoryIdAccount(Pageable pageable, int idAccount , String houseName , LocalDateTime startTime ,LocalDateTime endTime , String status );
 
     Booking findById(int id);
 

@@ -6,12 +6,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import java.time.LocalDateTime;
 import java.util.List;;
 
 public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable, @Param("idAccount") int idAccount);
+
+    @Query(value = "SELECT * FROM Booking b " +
+            "JOIN House h ON h.id = b.house_id " +
+            "WHERE (:houseName IS NULL OR h.name LIKE CONCAT('%', :houseName, '%')) " +
+            "AND ((:startTime IS NULL OR b.start_time >= :startTime) " +
+            "AND (:endTime IS NULL OR  b.end_time <= :endTime)) " +
+            "AND (:status IS NULL OR b.status LIKE CONCAT('%', :status, '%')) " +
+            "AND b.account_id = :idAccount"  , nativeQuery = true)
+    Page<Booking> getHistoryRentalByIdAccount(Pageable pageable, @Param("idAccount") int idAccount
+            , @Param("houseName") String houseName
+            , @Param("startTime") LocalDateTime startTime
+            , @Param("endTime") LocalDateTime endTime
+            , @Param("status") String status);
 
     @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
     List<Booking> findAllByHouseIdAndStatus(@Param("houseId") int houseId);
@@ -32,7 +46,6 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             @Param("startDay") int startDay,
             @Param("endDay") int endDay);
 
-
     @Query("SELECT b FROM Booking b " +
             "JOIN House h ON h.id = b.house.id " +
             "WHERE (:nameSearch IS NULL OR h.name LIKE CONCAT('%', :nameSearch, '%')) " +
@@ -48,6 +61,5 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             @Param("endTime") LocalDateTime endTime,
             Pageable pageable
     );
-
 
 }
