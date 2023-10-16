@@ -12,7 +12,6 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount")
     Page<Booking> getByIdAccount(Pageable pageable, @Param("idAccount") int idAccount);
 
-
     @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
     List<Booking> findAllByHouseIdAndStatus(@Param("houseId") int houseId);
 

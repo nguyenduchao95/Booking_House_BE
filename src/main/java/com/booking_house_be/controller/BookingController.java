@@ -131,22 +131,10 @@ public class BookingController {
         String status = requestData.getStatus();
         LocalDateTime selectedDateStart =requestData.getSelectedDateStart();
         LocalDateTime selectedDateEnd = requestData.getSelectedDateEnd();
-
         Pageable pageable;
         String sortBy = "startTime";
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
-//
-//        if (nameSearch != null && nameSearch.isEmpty()) {
-//            nameSearch = null;
-//        }
-//
-//        if (status != null) {
-//            status = status.replace("_", " ");
-//            if (status.isEmpty()) {
-//                status = null;
-//            }
-//        }
             return bookingService.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId, nameSearch, status, selectedDateStart, selectedDateEnd, pageable);
     }
 
