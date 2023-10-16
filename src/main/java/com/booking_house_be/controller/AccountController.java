@@ -37,18 +37,23 @@ public class AccountController {
     public List<Account> findAdmins() {
         return accountService.findAdmins();
     }
- @GetMapping("/by-role")
-    public Page<Account> getAllAccount(@Param("roleId") int roleId,
-                                       @Param("nameSearch") String nameSearch,
+
+    @GetMapping("/by-role")
+    public Page<Account> getAllAccount(@RequestParam("roleName") String roleName,
+                                       @RequestParam("nameSearch") String nameSearch,
                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                        @RequestParam(value = "size", defaultValue = "10") int size) {
 
-     Pageable pageable;
-     pageable = PageRequest.of(page, size);
-     if (roleId != 0 && !nameSearch.trim().equals("")) return accountService.findByLastnameContainingAndRoleId(nameSearch,roleId, pageable);
-     else if (roleId != 0)return accountService.findByRoleId(roleId,  pageable);
-     else if (!nameSearch.trim().equals("")) return accountService.findByLastnameContaining(nameSearch,pageable);
-     else return accountService.findAll(pageable);
+        Pageable pageable;
+        pageable = PageRequest.of(page, size);
+        if (!roleName.equals("ALL") && !nameSearch.trim().equals(""))
+            return accountService.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
+        else if (!roleName.equals("ALL"))
+            return accountService.findByRoleName(roleName, pageable);
+        else if (!nameSearch.trim().equals(""))
+            return accountService.findByLastnameContaining(nameSearch, pageable);
+        else
+            return accountService.findAll(pageable);
     }
 
     @GetMapping("/getById/{id}")
@@ -126,8 +131,8 @@ public class AccountController {
     public ResponseEntity<?> agreeRegister(@RequestBody Owner owner) {
         ownerService.save(owner);
         Role role = roleRepo.findById(3);
-        Account account = new Account(owner.getAccount().getId(), owner.getAccount().getUsername() , owner.getAccount().getPassword() , owner.getFirstname() , owner.getLastname() , owner.getAddress() , owner.getProvince() ,
-                owner.getDistrict() , owner.getWard() ,owner.getEmail() , owner.getPhone() , owner.getAvatar() , owner.getAccount().getWallet() , owner.getAccount().getStatus() , role );
+        Account account = new Account(owner.getAccount().getId(), owner.getAccount().getUsername(), owner.getAccount().getPassword(), owner.getFirstname(), owner.getLastname(), owner.getAddress(), owner.getProvince(),
+                owner.getDistrict(), owner.getWard(), owner.getEmail(), owner.getPhone(), owner.getAvatar(), owner.getAccount().getWallet(), owner.getAccount().getStatus(), role);
         accountService.save(account);
         return new ResponseEntity<>("Xác nhận thành công", HttpStatus.OK);
     }
@@ -139,6 +144,7 @@ public class AccountController {
         ownerService.save(owner);
         return new ResponseEntity<>("Từ chối thành công", HttpStatus.OK);
     }
+
     @GetMapping("/unBlock/{accId}")
     public ResponseEntity<?> unBlockAccount(@PathVariable int accId) {
         Account account = accountService.getById(accId);
@@ -146,6 +152,7 @@ public class AccountController {
         accountService.save(account);
         return new ResponseEntity<>("Mở khóa tài khoản thành công", HttpStatus.OK);
     }
+
     @GetMapping("/block/{accId}")
     public ResponseEntity<?> blockAccount(@PathVariable int accId) {
         Account account = accountService.getById(accId);
