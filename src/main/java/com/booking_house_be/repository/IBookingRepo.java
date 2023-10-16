@@ -1,19 +1,15 @@
 package com.booking_house_be.repository;
-
 import com.booking_house_be.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
 import java.util.List;
 
-import java.util.List;
-
 public interface IBookingRepo extends JpaRepository<Booking, Integer> {
-    @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount")
+    @Query(nativeQuery = true, value = "select * from booking where account_id= :idAccount order by start_time asc")
     Page<Booking> getByIdAccount(Pageable pageable, @Param("idAccount") int idAccount);
 
     @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
