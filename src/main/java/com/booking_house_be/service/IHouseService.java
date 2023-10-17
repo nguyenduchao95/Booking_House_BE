@@ -1,16 +1,18 @@
 package com.booking_house_be.service;
-
 import com.booking_house_be.dto.HouseDto;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.repository.IHouseRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IHouseService {
     House findById(int id);
 
     House createHouse(HouseDto houseDto);
    Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable);
+
     House editHouse(HouseDto houseDto);
 
     Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice);

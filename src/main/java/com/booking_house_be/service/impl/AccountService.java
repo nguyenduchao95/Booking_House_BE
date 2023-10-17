@@ -96,13 +96,23 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable) {
-        return accountRepo.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
+    public Page<Account> findByRoleNameAndLastnameContains( String roleName,String nameSearch, Pageable pageable) {
+        return accountRepo.findByRoleNameAndLastnameContains( roleName, nameSearch, pageable);
     }
 
     @Override
     public Page<Account> findAll(Pageable pageable) {
         return accountRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleNameAndLastnameContainsAndStatus( String roleName,String nameSearch, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndLastnameContainsAndStatus(roleName, nameSearch, status, pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndStatus(roleName, status, pageable);
     }
 
 

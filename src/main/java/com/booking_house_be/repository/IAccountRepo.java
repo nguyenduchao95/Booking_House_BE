@@ -19,11 +19,12 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     Account getAccountLogin(@Param("username") String username, @Param("password") String password);
 
     List<Account> findByRoleName(String name);
-
+//
     Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
-
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndLastnameContains( String roleName,String nameSearch, Pageable pageable);
+    Page<Account> findByRoleNameAndLastnameContainsAndStatus( String roleName,String nameSearch,String status, Pageable pageable);
 
-    Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndStatus(String roleName,String status, Pageable pageable);
 
 }

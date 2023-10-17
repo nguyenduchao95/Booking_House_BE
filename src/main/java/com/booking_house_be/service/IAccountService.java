@@ -36,8 +36,13 @@ public interface IAccountService extends UserDetailsService {
 
     Page<Account> findByRoleName(String roleName, Pageable pageable);
 
-    Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndLastnameContains( String roleName,String nameSearch, Pageable pageable);
 
     Page<Account> findAll(Pageable pageable);
+
+    Page<Account> findByRoleNameAndLastnameContainsAndStatus(String roleName,String nameSearch,  String status, Pageable pageable);
+
+    Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable);
+
 
 }
