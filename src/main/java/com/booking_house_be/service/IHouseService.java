@@ -5,6 +5,7 @@ import com.booking_house_be.repository.IHouseRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+
 import java.util.List;
 
 public interface IHouseService {
@@ -12,6 +13,8 @@ public interface IHouseService {
 
     House createHouse(HouseDto houseDto);
    Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable);
+    List<IHouseRepo.HouseInfo> findByOwnerId(int ownerId);
+
 
     House editHouse(HouseDto houseDto);
 

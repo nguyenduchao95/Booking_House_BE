@@ -78,6 +78,11 @@ public class HouseService implements IHouseService {
         return houseRepo.findByOwnerIdAndNameAndStatus(id, name, status, pageable);
     }
 
+    @Override
+    public List<IHouseRepo.HouseInfo> findByOwnerId(int ownerId) {
+        return houseRepo.findByOwnerId(ownerId);
+    }
+
 
     @Override
     public House findByIdAndOwnerId(int houseId, int ownerId) {

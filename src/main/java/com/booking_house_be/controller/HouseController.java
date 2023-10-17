@@ -73,6 +73,10 @@ public class HouseController {
         Pageable pageable = PageRequest.of(page, size);
         return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
     }
+    @GetMapping("/owner/revenue/{ownerId}")
+    public List<IHouseRepo.HouseInfo> findByOwnerIdAndNameContains(@PathVariable int ownerId) {
+        return houseService.findByOwnerId(ownerId);
+    }
 
 
     @PutMapping("/owner/{houseId}")
