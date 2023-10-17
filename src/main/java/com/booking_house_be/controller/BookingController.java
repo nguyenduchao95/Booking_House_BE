@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -145,17 +144,6 @@ public class BookingController {
     public ResponseEntity<?> getAll() {
         return new ResponseEntity<>(bookingService.getAll(), HttpStatus.OK);
     }
-
-   /* @GetMapping("/getByIdAccount/{idAccount}")
-    public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
-                                            @RequestParam(value = "size", defaultValue = "7") int size,
-                                            @PathVariable int idAccount) {
-        Pageable pageable;
-        String sortBy = "start_time";
-        Sort sort = Sort.by(Sort.Order.desc(sortBy));
-        pageable = PageRequest.of(page, size, sort);
-        return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
-    }*/
 
     @PostMapping("/getByIdAccount/{idAccount}")
     public ResponseEntity<?> getHistoryRentalAccount(@RequestParam(value = "page", defaultValue = "0") int page,
