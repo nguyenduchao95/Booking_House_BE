@@ -3,7 +3,6 @@ package com.booking_house_be.service.impl;
 import com.booking_house_be.dto.BillPDF;
 import com.booking_house_be.entity.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,7 +37,7 @@ public class EmailService {
         helper.setFrom("huhuh8918@gmail.com");
         helper.setTo(toEmail);
 
-        helper.setText("<b>Chào bạn</b>,<br><p>Đây là hóa đơn thuê nhà của bạn</p>", true);
+        helper.setText("<b>Chào bạn</b>,<br><p>Chủ nhà đã xác nhận lịch thuê. Hóa đơn thuê nhà của bạn được đính kèm file bên dưới</p>", true);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         BillPDF billPDF = new BillPDF(booking);
@@ -48,6 +47,19 @@ public class EmailService {
 
         DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
         helper.addAttachment("Bill.pdf", dataSource);
+
+        javaMailSender.send(message);
+    }
+
+    public void sendEmailBooking(String subject, String toEmail, String content) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject(subject);
+        helper.setFrom("huhuh8918@gmail.com");
+        helper.setTo(toEmail);
+
+        helper.setText(content, true);
 
         javaMailSender.send(message);
     }

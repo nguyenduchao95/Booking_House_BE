@@ -20,4 +20,9 @@ public class Image {
         this.url = url;
         this.house = house;
     }
+
+    public Image(int id, String url){
+        this.url = url;
+        this.id = id;
+    }
 }
