@@ -1,9 +1,11 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.dto.HouseDto;
+import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Owner;
 import com.booking_house_be.repository.IOwnerRepo;
+import com.booking_house_be.service.IBookingService;
 import com.booking_house_be.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/owners")
@@ -21,6 +25,8 @@ public class OwnerController {
     private IHouseService houseService;
     @Autowired
     private IOwnerRepo ownerRepo;
+    @Autowired
+    IBookingService bookingService;
 
     @PostMapping("/create-house")
     public ResponseEntity<?> createHouse(@RequestBody HouseDto houseDto) {
@@ -44,6 +50,20 @@ public class OwnerController {
             else
                 return ResponseEntity.ok(house);
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
+
+    @PostMapping("/cancel-booking/{id}")
+    public ResponseEntity<?> cancelBookingOwner(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+        try {
+            String message = requestBody.get("message");
+            Booking booking = bookingService.findById(id);
+            String toEmail = booking.getAccount().getEmail();
+            String contentTitle = "Chủ nhà đã hủy lịch thuê nhà";
+            bookingService.cancelBooking(booking, toEmail, contentTitle, message);
+            return ResponseEntity.ok("Hủy thành công");
+        } catch (Exception e){
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
     }

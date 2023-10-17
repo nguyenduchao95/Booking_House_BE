@@ -1,11 +1,11 @@
 package com.booking_house_be.service;
 
 import com.booking_house_be.entity.Booking;
+import com.booking_house_be.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +20,10 @@ public interface IBookingService {
 
     Booking bookingHouse(Booking booking);
 
+    Booking waitOwnerConfirmBooking(int bookingId);
+
+    void cancelBooking(Booking booking, String toEmail, String contentTitle, String message) throws MessagingException;
+
     List<Booking> getAll();
 
     Page<Booking> getByIdAccount(Pageable pageable, int idAccount);
@@ -30,4 +34,5 @@ public interface IBookingService {
     List<Double> getDailyRevenueByOwnerAndWeek(int ownerId, int month, int year, int startDay, int endDay);
 
     Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, LocalDateTime startTime, LocalDateTime endTime, Pageable pageable);
+    Review createReview(Review review);
 }
