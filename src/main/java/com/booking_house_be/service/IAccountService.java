@@ -40,4 +40,6 @@ public interface IAccountService extends UserDetailsService {
 
     Page<Account> findAll(Pageable pageable);
 
+    Page<Account> findRoleUser( String roleName , String nameSearch , Pageable pageable);
+
 }
