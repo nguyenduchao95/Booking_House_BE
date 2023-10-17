@@ -83,7 +83,7 @@ public class BillPDF {
         document.close();
     }
 
-    private static String formatTime(LocalDateTime localDateTime) {
+    public static String formatTime(LocalDateTime localDateTime) {
         return localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue() + "/"
                 + localDateTime.getYear() + " " + localDateTime.getHour() + ":"
                 + (localDateTime.getMinute() < 10 ? "0" : "") + localDateTime.getMinute();

@@ -1,4 +1,5 @@
 package com.booking_house_be.repository;
+
 import com.booking_house_be.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,6 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b from Booking b WHERE b.house.id = :houseId AND b.status IN ('Chờ xác nhận', 'Chờ nhận phòng')")
     List<Booking> findAllByHouseIdAndStatus(@Param("houseId") int houseId);
-
     Booking findById(int id);
 
     @Query(nativeQuery = true, value =

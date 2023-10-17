@@ -34,6 +34,7 @@ public class AccountService implements IAccountService {
     public void edit(Account account) {
         accountRepo.save(account);
     }
+
     @Override
     public Optional<Account> getAccountById(int id) {
         return accountRepo.findById(id);
@@ -84,23 +85,30 @@ public class AccountService implements IAccountService {
         return accountRepo.findByRoleName("ROLE_ADMIN");
     }
 
+
     @Override
-    public Page<Account> findByLastnameContaining(String nameSearch,  Pageable pageable) {
-        return accountRepo.findByLastnameContaining(nameSearch, pageable);
-    }
- @Override
-    public Page<Account> findByRoleId(int roleId,  Pageable pageable) {
-        return accountRepo.findByRoleId(roleId, pageable);
+    public Page<Account> findByRoleName(String roleName, Pageable pageable) {
+        return accountRepo.findAllByRoleName(roleName, pageable);
     }
 
     @Override
-    public Page<Account> findByLastnameContainingAndRoleId(String nameSearch, int roleId, Pageable pageable) {
-        return accountRepo.findByLastnameContainingAndRoleId(nameSearch, roleId, pageable);
+    public Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContains( roleName, nameSearch, pageable);
     }
 
     @Override
     public Page<Account> findAll(Pageable pageable) {
         return accountRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndStatus(roleName, status, pageable);
     }
 
 
