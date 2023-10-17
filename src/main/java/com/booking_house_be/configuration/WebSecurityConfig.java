@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/temp/login", "/api/login/**", "/api/register", "/api/bookings/**", "/api/accounts/**", "/api/houses/**", "/api/images/**").permitAll()
                 .antMatchers("/api/bookings/**").hasAnyRole("ADMIN", "USER", "OWNER")
                 .antMatchers("/api/owners/**").hasRole("OWNER")
+                .antMatchers("/api/owners/**").hasAnyRole("ADMIN", "OWNER")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling();

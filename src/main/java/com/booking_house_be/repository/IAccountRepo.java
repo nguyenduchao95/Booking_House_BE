@@ -25,5 +25,8 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
 
     Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
-
+    @Query( value = "select a from Account a " +
+            "join Role r on a.role.id = r.id " +
+            "where ( (a.firstname like CONCAT ('%' , :nameSearch , '%') or (a.lastname like CONCAT ('%' , :nameSearch , '%'))) and r.name = :roleName) ")
+    Page<Account> findByNameANdRoleName(@Param("nameSearch")String nameSearch,@Param("roleName") String roleName , Pageable pageable );
 }

@@ -47,13 +47,23 @@ public class AccountController {
         Pageable pageable;
         pageable = PageRequest.of(page, size);
         if (!roleName.equals("ALL") && !nameSearch.trim().equals(""))
-            return accountService.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
+            return accountService.findByNameANdRoleName(nameSearch, roleName, pageable);
         else if (!roleName.equals("ALL"))
             return accountService.findByRoleName(roleName, pageable);
         else if (!nameSearch.trim().equals(""))
             return accountService.findByLastnameContaining(nameSearch, pageable);
         else
             return accountService.findAll(pageable);
+    }
+    @GetMapping("/getUser")
+    public Page<Account> getUser(@RequestParam("roleName") String roleName,
+                                       @RequestParam("nameSearch") String nameSearch,
+                                       @RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "7") int size) {
+
+        Pageable pageable;
+        pageable = PageRequest.of(page, size);
+        return accountService.findByNameANdRoleName(nameSearch , roleName , pageable );
     }
 
     @GetMapping("/getById/{id}")

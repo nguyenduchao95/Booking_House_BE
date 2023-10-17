@@ -105,5 +105,8 @@ public class AccountService implements IAccountService {
         return accountRepo.findAll(pageable);
     }
 
-
+    @Override
+    public Page<Account> findByNameANdRoleName(String nameSearch, String roleName , Pageable pageable) {
+        return accountRepo.findByNameANdRoleName(nameSearch , roleName , pageable );
+    }
 }
