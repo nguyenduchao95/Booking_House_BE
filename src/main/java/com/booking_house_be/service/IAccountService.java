@@ -32,15 +32,14 @@ public interface IAccountService extends UserDetailsService {
 
     List<Account> findAdmins();
 
-    Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
 
     Page<Account> findByRoleName(String roleName, Pageable pageable);
 
-    Page<Account> findByRoleNameAndLastnameContains( String roleName,String nameSearch, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
 
     Page<Account> findAll(Pageable pageable);
 
-    Page<Account> findByRoleNameAndLastnameContainsAndStatus(String roleName,String nameSearch,  String status, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContainsAndStatus(String roleName,String nameSearch,  String status, Pageable pageable);
 
     Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable);
 

@@ -46,11 +46,11 @@ public class AccountController {
         Pageable pageable;
         pageable = PageRequest.of(page, size);
         if (!status.equals("ALL") && !nameSearch.trim().equals(""))
-            return accountService.findByRoleNameAndLastnameContainsAndStatus(roleName, nameSearch, status, pageable);
+            return accountService.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
         else if (!status.equals("ALL"))
             return accountService.findByRoleNameAndStatus(roleName, status, pageable);
         else if (!nameSearch.trim().equals(""))
-            return accountService.findByRoleNameAndLastnameContains(roleName, nameSearch, pageable);
+            return accountService.findByRoleNameAndUsernameContains(roleName, nameSearch, pageable);
         else
             return accountService.findByRoleName(roleName, pageable);
     }

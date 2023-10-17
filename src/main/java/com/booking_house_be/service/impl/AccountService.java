@@ -85,10 +85,6 @@ public class AccountService implements IAccountService {
         return accountRepo.findByRoleName("ROLE_ADMIN");
     }
 
-    @Override
-    public Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable) {
-        return accountRepo.findByLastnameContaining(nameSearch, pageable);
-    }
 
     @Override
     public Page<Account> findByRoleName(String roleName, Pageable pageable) {
@@ -96,8 +92,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Page<Account> findByRoleNameAndLastnameContains( String roleName,String nameSearch, Pageable pageable) {
-        return accountRepo.findByRoleNameAndLastnameContains( roleName, nameSearch, pageable);
+    public Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContains( roleName, nameSearch, pageable);
     }
 
     @Override
@@ -106,8 +102,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Page<Account> findByRoleNameAndLastnameContainsAndStatus( String roleName,String nameSearch, String status, Pageable pageable) {
-        return accountRepo.findByRoleNameAndLastnameContainsAndStatus(roleName, nameSearch, status, pageable);
+    public Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
     }
 
     @Override
