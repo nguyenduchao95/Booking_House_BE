@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -159,4 +160,16 @@ public class AccountController {
         accountService.save(account);
         return new ResponseEntity<>("Khóa tài khoản thành công", HttpStatus.OK);
     }
+    @GetMapping("/getUser")
+    public Page<Account> getUser(@RequestParam("roleName") String roleName,
+                                       @RequestParam("nameSearch") String nameSearch,
+                                       @RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable;
+        String sortBy = "id";
+        Sort sort = Sort.by(Sort.Order.asc(sortBy));
+        pageable = PageRequest.of(page, size , sort);
+        return  accountService.findRoleUser(roleName , nameSearch , pageable);
+    }
+
 }

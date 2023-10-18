@@ -30,7 +30,13 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
             "WHERE h.owner.id = :ownerId " +
             "GROUP BY h.id")
     List<IHouseRepo.HouseInfo> findByOwnerId(@Param("ownerId") int ownerId);
-
+    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.price AS price, h.address AS address, h.province AS province, h.status AS status, " +
+            "SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue " +
+            "FROM House h " +
+            "LEFT JOIN Booking b ON h.id = b.house.id " +
+            "WHERE h.owner.id = :ownerId " +
+            "GROUP BY h.id")
+    Page<IHouseRepo.HouseInfo> findByOwnerId(@Param("ownerId") int ownerId , Pageable pageable);
 
     interface HouseInfo {
         int getId();

@@ -44,4 +44,6 @@ public interface IAccountService extends UserDetailsService {
     Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable);
 
 
+    Page<Account> findRoleUser( String roleName , String nameSearch , Pageable pageable);
+
 }

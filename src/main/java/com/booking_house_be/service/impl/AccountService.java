@@ -111,5 +111,10 @@ public class AccountService implements IAccountService {
         return accountRepo.findByRoleNameAndStatus(roleName, status, pageable);
     }
 
+    @Override
+    public Page<Account> findRoleUser(String roleName, String nameSearch, Pageable pageable) {
+        return accountRepo.findRoleUser(roleName , nameSearch , pageable);
+    }
+
 
 }
