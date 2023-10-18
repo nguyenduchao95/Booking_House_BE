@@ -21,8 +21,11 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     List<Account> findByRoleName(String name);
 
     Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
-
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch,String status, Pageable pageable);
+
+    Page<Account> findByRoleNameAndStatus(String roleName,String status, Pageable pageable);
 
     Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
     @Query(nativeQuery = true , value = "select a.* from account a" +

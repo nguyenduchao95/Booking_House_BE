@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")
@@ -70,6 +72,10 @@ public class HouseController {
 
         Pageable pageable = PageRequest.of(page, size);
         return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
+    }
+    @GetMapping("/owner/revenue/{ownerId}")
+    public List<IHouseRepo.HouseInfo> findByOwnerIdAndNameContains(@PathVariable int ownerId) {
+        return houseService.findByOwnerId(ownerId);
     }
 
 

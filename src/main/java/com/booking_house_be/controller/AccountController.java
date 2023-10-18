@@ -1,7 +1,6 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Account;
-import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.Owner;
 import com.booking_house_be.entity.Role;
 import com.booking_house_be.repository.IRoleRepo;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,22 +36,24 @@ public class AccountController {
         return accountService.findAdmins();
     }
 
-    @GetMapping("/by-role")
+
+
+    @GetMapping("/getAccountByRole")
     public Page<Account> getAllAccount(@RequestParam("roleName") String roleName,
                                        @RequestParam("nameSearch") String nameSearch,
+                                       @RequestParam("status") String status,
                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                        @RequestParam(value = "size", defaultValue = "10") int size) {
-
         Pageable pageable;
         pageable = PageRequest.of(page, size);
-        if (!roleName.equals("ALL") && !nameSearch.trim().equals(""))
-            return accountService.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
-        else if (!roleName.equals("ALL"))
-            return accountService.findByRoleName(roleName, pageable);
+        if (!status.equals("ALL") && !nameSearch.trim().equals(""))
+            return accountService.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
+        else if (!status.equals("ALL"))
+            return accountService.findByRoleNameAndStatus(roleName, status, pageable);
         else if (!nameSearch.trim().equals(""))
-            return accountService.findByLastnameContaining(nameSearch, pageable);
+            return accountService.findByRoleNameAndUsernameContains(roleName, nameSearch, pageable);
         else
-            return accountService.findAll(pageable);
+            return accountService.findByRoleName(roleName, pageable);
     }
 
     @GetMapping("/getById/{id}")
