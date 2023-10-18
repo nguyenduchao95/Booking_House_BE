@@ -1,9 +1,11 @@
 package com.booking_house_be.service;
 
+import com.booking_house_be.dto.query.SpendingDto;
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
@@ -34,4 +36,6 @@ public interface IBookingService {
 
     Page<Booking> findByHouseAndStartTimeAndEndTimeAndStatus(int ownerId, String nameSearch, String status, LocalDateTime startTime, LocalDateTime endTime, Pageable pageable);
     Review createReview(Review review);
+
+    SpendingDto getSpendingUser(@Param("idAccount") int idAccount);
 }

@@ -1,5 +1,6 @@
 package com.booking_house_be.repository;
 
+import com.booking_house_be.dto.query.SpendingDto;
 import com.booking_house_be.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +49,8 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             @Param("endTime") LocalDateTime endTime,
             Pageable pageable
     );
-
+    @Query(nativeQuery = true , value =  "select sum(b.total) as spending " +
+            "from booking b where status = 'Đã trả phòng' and b.account_id = :idAccount ; ")
+    SpendingDto getSpendingUser(@Param("idAccount") int idAccount);
 
 }

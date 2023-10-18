@@ -134,7 +134,7 @@ public class BookingController {
 
     @GetMapping("/getByIdAccount/{idAccount}")
     public ResponseEntity<?> getByIdAccount(@RequestParam(value = "page", defaultValue = "0") int page,
-                                            @RequestParam(value = "size", defaultValue = "7") int size,
+                                            @RequestParam(value = "size", defaultValue = "5") int size,
                                             @PathVariable int idAccount) {
         Pageable pageable;
         String sortBy = "start_time";
@@ -165,4 +165,8 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }
     }
+    @GetMapping("/getSpending/{idAccount}")
+   public ResponseEntity<?> getSpendingAccount(@PathVariable int idAccount) {
+        return ResponseEntity.ok(bookingService.getSpendingUser(idAccount));
+   }
 }
