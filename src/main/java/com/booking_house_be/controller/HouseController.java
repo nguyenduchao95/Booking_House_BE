@@ -74,13 +74,24 @@ public class HouseController {
         Pageable pageable = PageRequest.of(page, size);
         return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
     }
+    @GetMapping("/owner/revenue/{ownerId}")
+    public List<IHouseRepo.HouseInfo> findByOwnerId(@PathVariable int ownerId) {
+        return houseService.findByOwnerId(ownerId);
+    }
+
+    @GetMapping("/owner/listHouse/{ownerId}")
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameContains(@PathVariable int ownerId ,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return houseService.findByOwnerId(ownerId , pageable);
+    }
 
 
     @PutMapping("/owner/{houseId}")
     public House updateStageStatus(@PathVariable int houseId, @RequestParam("status") String status) {
         return houseService.updateStatus(houseId, status);
     }
-
     @GetMapping("/top5")
     public List<House> getTopBookingHouse() {
         List<Integer> houseId = houseService.getTopBookingHouseId();
@@ -90,4 +101,5 @@ public class HouseController {
         }
         return houses;
     }
+
 }

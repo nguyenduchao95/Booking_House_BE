@@ -13,6 +13,9 @@ public interface IHouseService {
 
     House createHouse(HouseDto houseDto);
    Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus( int id, String name, String status,Pageable pageable);
+    List<IHouseRepo.HouseInfo> findByOwnerId(int ownerId);
+    Page<IHouseRepo.HouseInfo> findByOwnerId(int ownerId , Pageable pageable);
+
     House editHouse(HouseDto houseDto);
 
     Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice);
