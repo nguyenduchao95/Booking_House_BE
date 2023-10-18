@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
@@ -51,6 +53,9 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
 
 
     House findByIdAndOwnerId(int houseId, int ownerId);
+
+    @Query("SELECT b.house.id, COUNT(*) FROM Booking b GROUP BY b.house.id ORDER BY COUNT(*) DESC")
+    List<Integer> getTopBookingHouseId();
 }
 
 

@@ -74,6 +74,11 @@ public class HouseService implements IHouseService {
     }
 
     @Override
+    public List<Integer> getTopBookingHouseId() {
+        return houseRepo.getTopBookingHouseId();
+    }
+
+    @Override
     public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus(int id, String name, String status, Pageable pageable) {
         return houseRepo.findByOwnerIdAndNameAndStatus(id, name, status, pageable);
     }

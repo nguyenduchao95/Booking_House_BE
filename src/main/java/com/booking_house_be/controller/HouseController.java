@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")
@@ -78,4 +81,13 @@ public class HouseController {
         return houseService.updateStatus(houseId, status);
     }
 
+    @GetMapping("/top5")
+    public List<House> getTopBookingHouse() {
+        List<Integer> houseId = houseService.getTopBookingHouseId();
+        List<House> houses = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            houses.add(houseService.findById(houseId.get(i)));
+        }
+        return houses;
+    }
 }
