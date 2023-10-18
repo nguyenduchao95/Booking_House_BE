@@ -17,9 +17,6 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM Account where username= :username and password= :password")
     Account getAccountLogin(@Param("username") String username, @Param("password") String password);
-    @Query(nativeQuery = true, value = "SELECT * FROM Account WHERE username = :username AND password = :password AND status <> 'bị khóa'")
-    Account checkStatus(@Param("username") String username, @Param("password") String password);
-
     List<Account> findByRoleName(String name);
 
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
