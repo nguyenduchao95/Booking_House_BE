@@ -92,6 +92,7 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<?> bookHouse(@RequestBody Booking booking) {
+        booking.setCreate_at(LocalDateTime.now());
         try {
             return ResponseEntity.ok(bookingService.bookingHouse(booking));
         } catch (Exception e) {
@@ -120,7 +121,7 @@ public class BookingController {
         LocalDateTime selectedDateStart = requestData.getSelectedDateStart();
         LocalDateTime selectedDateEnd = requestData.getSelectedDateEnd();
         Pageable pageable;
-        String sortBy = "startTime";
+        String sortBy = "create_at";
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
         return bookingService.findByHouseAndStartTimeAndEndTimeAndStatus(ownerId, nameSearch, status, selectedDateStart, selectedDateEnd, pageable);
@@ -137,7 +138,7 @@ public class BookingController {
                                             @RequestParam(value = "size", defaultValue = "5") int size,
                                             @PathVariable int idAccount) {
         Pageable pageable;
-        String sortBy = "start_time";
+        String sortBy = "create_at";
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
         return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
