@@ -1,19 +1,17 @@
 package com.booking_house_be.service.impl;
 
 import com.booking_house_be.dto.BillPDF;
+import com.booking_house_be.dto.query.SpendingDto;
 import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Booking;
-import com.booking_house_be.entity.House;
 import com.booking_house_be.entity.Review;
 import com.booking_house_be.repository.IAccountRepo;
 import com.booking_house_be.repository.IBookingRepo;
-import com.booking_house_be.repository.IHouseRepo;
 import com.booking_house_be.repository.IReviewRepo;
 import com.booking_house_be.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;
@@ -169,5 +167,10 @@ public class BookingService implements IBookingService {
     @Override
     public Booking findById(int id) {
         return bookingRepo.findById(id);
+    }
+
+    @Override
+    public SpendingDto getSpendingUser(int idAccount) {
+        return bookingRepo.getSpendingUser(idAccount);
     }
 }

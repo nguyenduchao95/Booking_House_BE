@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -23,12 +20,18 @@ public class MessageController {
     private IMessageService messageService;
 
     @MessageMapping("/chat")
-    public void greeting(Message message) {
+    public void chat(Message message) {
         message.setStatus(false);
         message.setCreateAt(LocalDateTime.now());
         Message messageDB = messageService.save(message);
         String destinationReceive = "/topic/" + message.getReceiver().getId();
         simpMessagingTemplate.convertAndSend(destinationReceive, messageDB);
+    }
+
+    @MessageMapping("/block")
+    public void block(Message message) {
+        String destinationReceive = "/block/" + message.getReceiver().getId();
+        simpMessagingTemplate.convertAndSend(destinationReceive, message);
     }
 
     @GetMapping("/api/messages/{senderId}/{receiverId}")
@@ -60,7 +63,7 @@ public class MessageController {
         }
     }
 
-    @GetMapping("/api/messages/change-status/{accountId}/{senderId}")
+    @PutMapping("/api/messages/change-status/{accountId}/{senderId}")
     public ResponseEntity<?> changeStatusMessage(@PathVariable int accountId, @PathVariable int senderId) {
         try {
             messageService.changeStatusMessage(accountId, senderId);

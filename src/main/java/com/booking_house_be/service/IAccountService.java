@@ -33,14 +33,19 @@ public interface IAccountService extends UserDetailsService {
 
     List<Account> findAdmins();
 
-    Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
-
     Page<Account> findByRoleName(String roleName, Pageable pageable);
 
-    Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
 
-    Page<Account> findAll(Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContainsAndStatus(String roleName,String nameSearch,  String status, Pageable pageable);
+
+    Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable);
+
+
+    Page<Account> findRoleUser( String roleName , String nameSearch , Pageable pageable);
 
     List<AccountAndMessageDto> listUserAndUnreadMessage(int userId);
     List<Account> findAllByUsernameContainsAndNotAccountLogin(String username, int accountId);
+
+    boolean checkBlockAccount(int accountId);
 }

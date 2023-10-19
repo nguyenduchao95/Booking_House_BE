@@ -74,9 +74,25 @@ public class HouseService implements IHouseService {
     }
 
     @Override
+    public List<Integer> getTopBookingHouseId() {
+        return houseRepo.getTopBookingHouseId();
+    }
+
+    @Override
     public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus(int id, String name, String status, Pageable pageable) {
         return houseRepo.findByOwnerIdAndNameAndStatus(id, name, status, pageable);
     }
+
+    @Override
+    public List<IHouseRepo.HouseInfo> findByOwnerId(int ownerId) {
+        return houseRepo.findByOwnerId(ownerId);
+    }
+
+    @Override
+    public Page<IHouseRepo.HouseInfo> findByOwnerId(int ownerId, Pageable pageable) {
+        return houseRepo.findByOwnerId(ownerId , pageable);
+    }
+
 
     @Override
     public House findByIdAndOwnerId(int houseId, int ownerId) {

@@ -10,7 +10,6 @@ import com.booking_house_be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,6 +65,7 @@ public class AccountService implements IAccountService {
         } else {
             Role role = roleRepo.findByName("ROLE_USER");
             account.setRole(role);
+            account.setStatus("Đang hoạt động");
             return accountRepo.save(account);
         }
     }
@@ -90,10 +90,6 @@ public class AccountService implements IAccountService {
         return accountRepo.findByRoleName("ROLE_ADMIN");
     }
 
-    @Override
-    public Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable) {
-        return accountRepo.findByLastnameContaining(nameSearch, pageable);
-    }
 
     @Override
     public Page<Account> findByRoleName(String roleName, Pageable pageable) {
@@ -101,13 +97,23 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable) {
-        return accountRepo.findByLastnameContainingAndRoleName(nameSearch, roleName, pageable);
+    public Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContains( roleName, nameSearch, pageable);
     }
 
     @Override
-    public Page<Account> findAll(Pageable pageable) {
-        return accountRepo.findAll(pageable);
+    public Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
+    }
+
+    @Override
+    public Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable) {
+        return accountRepo.findByRoleNameAndStatus(roleName, status, pageable);
+    }
+
+    @Override
+    public Page<Account> findRoleUser(String roleName, String nameSearch, Pageable pageable) {
+        return accountRepo.findRoleUser(roleName , nameSearch , pageable);
     }
 
     @Override
@@ -124,6 +130,11 @@ public class AccountService implements IAccountService {
     @Override
     public List<Account> findAllByUsernameContainsAndNotAccountLogin(String username, int accountId) {
         return accountRepo.findAllByUsernameContainsAndNotAccountLogin(username, accountId);
+    }
+
+    @Override
+    public boolean checkBlockAccount(int accountId) {
+        return accountRepo.findByIdAndStatus(accountId, "Bị khóa") != null;
     }
 
 }

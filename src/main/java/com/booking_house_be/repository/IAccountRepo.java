@@ -21,10 +21,17 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     List<Account> findByRoleName(String name);
 
     Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
-
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
+    Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch,String status, Pageable pageable);
+
+    Page<Account> findByRoleNameAndStatus(String roleName,String status, Pageable pageable);
 
     Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
+    @Query(nativeQuery = true , value = "select a.* from account a" +
+            " join role r on a.role_id = r.id where ((a.firstname like  CONCAT('%' , :nameSearch , '%')) or (a.lastname like CONCAT('%' , :nameSearch , '%'))) " +
+            "and r.name = :roleName ")
+    Page<Account> findRoleUser(@Param("roleName") String roleName ,@Param("nameSearch") String nameSearch , Pageable pageable);
 
    @Query(
             nativeQuery = true,
@@ -35,7 +42,8 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     )
     List<Account> listUserMessage(@Param("userId") int userId);
 
-
     @Query("SELECT a FROM Account a WHERE a.username LIKE CONCAT('%', :username, '%') AND a.id != :accountId AND a.status != 'Bị khóa'")
     List<Account> findAllByUsernameContainsAndNotAccountLogin(@Param("username") String username, @Param("accountId") int accountId);
+
+    Account findByIdAndStatus(int id, String status);
 }

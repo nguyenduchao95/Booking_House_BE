@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 public interface IHouseRepo extends JpaRepository<House, Integer> {
 
@@ -21,6 +23,20 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
             "GROUP BY h.id, h.name, h.thumbnail, h.price, h.address, h.status")
     Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameAndStatus(@Param("ownerId") int ownerId, @Param("nameSearch") String nameSearch, @Param("status") String status, Pageable pageable);
 
+    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.price AS price, h.address AS address, h.province AS province, h.status AS status, " +
+            "SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue " +
+            "FROM House h " +
+            "LEFT JOIN Booking b ON h.id = b.house.id " +
+            "WHERE h.owner.id = :ownerId " +
+            "GROUP BY h.id")
+    List<IHouseRepo.HouseInfo> findByOwnerId(@Param("ownerId") int ownerId);
+    @Query("SELECT h.id AS id, h.name AS name, h.thumbnail AS thumbnail, h.price AS price, h.address AS address, h.province AS province, h.status AS status, " +
+            "SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue " +
+            "FROM House h " +
+            "LEFT JOIN Booking b ON h.id = b.house.id " +
+            "WHERE h.owner.id = :ownerId " +
+            "GROUP BY h.id")
+    Page<IHouseRepo.HouseInfo> findByOwnerId(@Param("ownerId") int ownerId , Pageable pageable);
 
     interface HouseInfo {
         int getId();
@@ -32,6 +48,7 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
         double getPrice();
 
         String getAddress();
+
         String getProvince();
 
         double getRevenue();
@@ -51,6 +68,9 @@ public interface IHouseRepo extends JpaRepository<House, Integer> {
 
 
     House findByIdAndOwnerId(int houseId, int ownerId);
+
+    @Query("SELECT b.house.id, COUNT(*) FROM Booking b GROUP BY b.house.id ORDER BY COUNT(*) DESC")
+    List<Integer> getTopBookingHouseId();
 }
 
 

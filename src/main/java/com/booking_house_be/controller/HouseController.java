@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")
@@ -72,10 +75,34 @@ public class HouseController {
         return houseService.findByOwnerIdAndNameAndStatus(ownerId, name, status, pageable);
     }
 
+    @GetMapping("/owner/revenue/{ownerId}")
+    public List<IHouseRepo.HouseInfo> findByOwnerId(@PathVariable int ownerId) {
+        return houseService.findByOwnerId(ownerId);
+    }
+
+    @GetMapping("/owner/listHouse/{ownerId}")
+    public Page<IHouseRepo.HouseInfo> findByOwnerIdAndNameContains(@PathVariable int ownerId,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return houseService.findByOwnerId(ownerId, pageable);
+    }
+
 
     @PutMapping("/owner/{houseId}")
     public House updateStageStatus(@PathVariable int houseId, @RequestParam("status") String status) {
         return houseService.updateStatus(houseId, status);
+    }
+
+    @GetMapping("/top5")
+    public List<House> getTopBookingHouse() {
+        List<Integer> houseId = houseService.getTopBookingHouseId();
+        List<House> houses = new ArrayList<>();
+        for (int i = 0; i < houseId.size(); i++) {
+            houses.add(houseService.findById(houseId.get(i)));
+            if (i == 4) break;
+        }
+        return houses;
     }
 
 }
