@@ -21,11 +21,8 @@ public class MessageController {
 
     @MessageMapping("/chat")
     public void chat(Message message) {
-        message.setStatus(false);
-        message.setCreateAt(LocalDateTime.now());
-        Message messageDB = messageService.save(message);
         String destinationReceive = "/topic/" + message.getReceiver().getId();
-        simpMessagingTemplate.convertAndSend(destinationReceive, messageDB);
+        simpMessagingTemplate.convertAndSend(destinationReceive, message);
     }
 
     @MessageMapping("/block")
@@ -39,6 +36,15 @@ public class MessageController {
                                                                    @PathVariable int receiverId) {
         try {
             return ResponseEntity.ok(messageService.findAllBySenderIdAndReceiverId(senderId, receiverId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
+
+    @PostMapping("/api/messages")
+    public ResponseEntity<?> saveMessage(@RequestBody Message message) {
+        try {
+            return ResponseEntity.ok(messageService.save(message));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
         }

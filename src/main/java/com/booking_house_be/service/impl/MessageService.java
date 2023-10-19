@@ -6,6 +6,7 @@ import com.booking_house_be.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class MessageService implements IMessageService {
 
     @Override
     public Message save(Message message) {
+        message.setStatus(false);
+        message.setCreateAt(LocalDateTime.now());
         return messageRepo.save(message);
     }
 
