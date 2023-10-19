@@ -26,4 +26,16 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
 
     Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
 
+   @Query(
+            nativeQuery = true,
+            value = "SELECT * FROM account a " +
+                    "WHERE a.id IN (SELECT m.sender_id FROM message m WHERE m.receiver_id = :userId) " +
+                    "OR a.id IN (SELECT m.receiver_id FROM message m WHERE m.sender_id = :userId) " +
+                    "GROUP BY a.id"
+    )
+    List<Account> listUserMessage(@Param("userId") int userId);
+
+
+    @Query("SELECT a FROM Account a WHERE a.username LIKE CONCAT('%', :username, '%') AND a.id != :accountId AND a.status != 'Bị khóa'")
+    List<Account> findAllByUsernameContainsAndNotAccountLogin(@Param("username") String username, @Param("accountId") int accountId);
 }

@@ -160,4 +160,23 @@ public class AccountController {
         accountService.save(account);
         return new ResponseEntity<>("Khóa tài khoản thành công", HttpStatus.OK);
     }
+
+    @GetMapping("/{accountId}/messages")
+    public ResponseEntity<?> listUserAndUnreadMessage(@PathVariable int accountId) {
+        try {
+            return ResponseEntity.ok(accountService.listUserAndUnreadMessage(accountId));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
+
+    @GetMapping("/{accountId}/messages/search")
+    public ResponseEntity<?> findAllByUsernameContainsAndNotAccountLogin(@PathVariable int accountId,
+                                                                         @RequestParam("username") String username) {
+        try {
+            return ResponseEntity.ok(accountService.findAllByUsernameContainsAndNotAccountLogin(username, accountId));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).build();
+        }
+    }
 }

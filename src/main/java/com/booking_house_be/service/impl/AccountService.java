@@ -1,13 +1,16 @@
 package com.booking_house_be.service.impl;
 
+import com.booking_house_be.dto.AccountAndMessageDto;
 import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Role;
 import com.booking_house_be.repository.IAccountRepo;
+import com.booking_house_be.repository.IMessageRepo;
 import com.booking_house_be.repository.IRoleRepo;
 import com.booking_house_be.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +27,8 @@ public class AccountService implements IAccountService {
     private IAccountRepo accountRepo;
     @Autowired
     private IRoleRepo roleRepo;
+    @Autowired
+    private IMessageRepo messageRepo;
 
     @Override
     public Account getById(int id) {
@@ -105,5 +110,20 @@ public class AccountService implements IAccountService {
         return accountRepo.findAll(pageable);
     }
 
+    @Override
+    public List<AccountAndMessageDto> listUserAndUnreadMessage(int userId) {
+        List<Account> accounts = accountRepo.listUserMessage(userId);
+        List<AccountAndMessageDto> list = new ArrayList<>();
+        for (Account account : accounts){
+            int count = messageRepo.countUnreadMessagesByAccountLoginIdAndSenderId(userId, account.getId());
+            list.add(new AccountAndMessageDto(account, count));
+        }
+        return list;
+    }
+
+    @Override
+    public List<Account> findAllByUsernameContainsAndNotAccountLogin(String username, int accountId) {
+        return accountRepo.findAllByUsernameContainsAndNotAccountLogin(username, accountId);
+    }
 
 }

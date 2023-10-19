@@ -15,7 +15,8 @@ public class Message {
     private LocalDateTime createAt;
     private String message;
     @ManyToOne
-    private Account sender; //nguoi gui
+    private Account sender;
     @ManyToOne
-    private Account receiver; //nguon nhan
+    private Account receiver;
+    private boolean status;
 }

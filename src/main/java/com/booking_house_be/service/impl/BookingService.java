@@ -57,7 +57,7 @@ public class BookingService implements IBookingService {
                     + "<p>- Email: " + booking.getAccount().getEmail() + "</p>"
                     + "<p>- Thời gian thuê: Từ" + BillPDF.formatTime(booking.getStartTime()) + " đến " + BillPDF.formatTime(booking.getEndTime()) + "</p>"
                     + "<p>- Tổng tiền: " + numberFormat.format(booking.getTotal()) + "</p>"
-                    + "<br><p>Vui lòng đăng nhập vào website LUXURY để xác nhận lịch thuê.</p>";
+                    + "<br><p>Vui lòng đăng nhập vào website: <a href='http://localhost:3000' target='_blank'>https://www.LUXURY.com</a> để xác nhận lịch thuê.</p>";
             emailService.sendEmailBooking(subject, toEmail, content);
         } catch (MessagingException e) {
             throw new RuntimeException(e);

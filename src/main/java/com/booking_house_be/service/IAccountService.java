@@ -1,6 +1,7 @@
 package com.booking_house_be.service;
 
 
+import com.booking_house_be.dto.AccountAndMessageDto;
 import com.booking_house_be.entity.Account;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,6 @@ public interface IAccountService extends UserDetailsService {
 
     Page<Account> findAll(Pageable pageable);
 
+    List<AccountAndMessageDto> listUserAndUnreadMessage(int userId);
+    List<Account> findAllByUsernameContainsAndNotAccountLogin(String username, int accountId);
 }
