@@ -13,6 +13,7 @@ public class Booking {
     private LocalDateTime endTime;
     private double total;
     private String status;
+    private LocalDateTime create_at;
     @ManyToOne
     private House house;
     @ManyToOne
