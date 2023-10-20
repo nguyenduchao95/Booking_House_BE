@@ -42,6 +42,7 @@ public class BookingController {
             booking.setStatus("Đang ở");
             bookingService.save(booking);
             house.setStatus("Đang cho thuê");
+            houseService.saveHouse(house);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái chờ nhận phòng");
@@ -70,6 +71,7 @@ public class BookingController {
             booking.setStatus("Đã trả phòng");
             house.setStatus("Đang trống");
             bookingService.save(booking);
+            houseService.saveHouse(house);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().body("Lịch đặt thuê không ở trạng thái đang ở");

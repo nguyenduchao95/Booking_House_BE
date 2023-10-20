@@ -50,6 +50,11 @@ public class HouseService implements IHouseService {
     }
 
     @Override
+    public House saveHouse(House house) {
+        return houseRepo.save(house);
+    }
+
+    @Override
     public Page<House> findAllByPriceRange(Pageable pageable, double minPrice, double maxPrice) {
         return houseRepo.findAllByPriceRange(pageable, minPrice, maxPrice);
     }
@@ -90,7 +95,7 @@ public class HouseService implements IHouseService {
 
     @Override
     public Page<IHouseRepo.HouseInfo> findByOwnerId(int ownerId, Pageable pageable) {
-        return houseRepo.findByOwnerId(ownerId , pageable);
+        return houseRepo.findByOwnerId(ownerId, pageable);
     }
 
 
