@@ -14,8 +14,10 @@ public class Notification {
     private int id;
     private LocalDateTime createAt;
     private String message;
+    private String navigate;
+    private boolean status;
     @ManyToOne
-    private Account renter; //nguoi thue
+    private Account sender;
     @ManyToOne
-    private Account owner; //chunha
+    private Account receiver;
 }

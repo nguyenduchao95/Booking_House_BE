@@ -1,6 +1,7 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Message;
+import com.booking_house_be.entity.Notification;
 import com.booking_house_be.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin("*")
@@ -29,6 +28,12 @@ public class MessageController {
     public void block(Message message) {
         String destinationReceive = "/block/" + message.getReceiver().getId();
         simpMessagingTemplate.convertAndSend(destinationReceive, message);
+    }
+
+    @MessageMapping("/notify")
+    public void notify(Notification notification) {
+        String destinationReceive = "/notify/" + notification.getReceiver().getId();
+        simpMessagingTemplate.convertAndSend(destinationReceive, notification);
     }
 
     @GetMapping("/api/messages/{senderId}/{receiverId}")
