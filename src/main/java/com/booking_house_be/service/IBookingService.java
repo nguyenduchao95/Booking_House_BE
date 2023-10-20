@@ -5,6 +5,7 @@ import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.mail.MessagingException;
@@ -38,4 +39,7 @@ public interface IBookingService {
     Review createReview(Review review);
 
     SpendingDto getSpendingUser(@Param("idAccount") int idAccount);
+
+    Page<Booking> getRentalHistoryIdAccount(Pageable pageable, int idAccount , String houseName , LocalDateTime startTime ,LocalDateTime endTime , String status );
+
 }

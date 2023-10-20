@@ -173,4 +173,9 @@ public class BookingService implements IBookingService {
     public SpendingDto getSpendingUser(int idAccount) {
         return bookingRepo.getSpendingUser(idAccount);
     }
+
+    @Override
+    public Page<Booking> getRentalHistoryIdAccount(Pageable pageable, int idAccount, String houseName , LocalDateTime startTime, LocalDateTime endTime, String status) {
+        return bookingRepo.getHistoryRentalByIdAccount(pageable , idAccount , houseName , startTime , endTime , status);
+    }
 }

@@ -53,4 +53,17 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
             "from booking b where status = 'Đã trả phòng' and b.account_id = :idAccount ; ")
     SpendingDto getSpendingUser(@Param("idAccount") int idAccount);
 
+
+    @Query(value = "SELECT * FROM Booking b " +
+            "JOIN House h ON h.id = b.house_id " +
+            "WHERE (:houseName IS NULL OR h.name LIKE CONCAT('%', :houseName, '%')) " +
+            "AND ((:startTime IS NULL OR b.start_time >= :startTime) " +
+            "AND (:endTime IS NULL OR  b.end_time <= :endTime)) " +
+            "AND (:status IS NULL OR b.status LIKE CONCAT('%', :status, '%')) " +
+            "AND b.account_id = :idAccount"  , nativeQuery = true)
+    Page<Booking> getHistoryRentalByIdAccount(Pageable pageable, @Param("idAccount") int idAccount
+            , @Param("houseName") String houseName
+            , @Param("startTime") LocalDateTime startTime
+            , @Param("endTime") LocalDateTime endTime
+            , @Param("status") String status);
 }

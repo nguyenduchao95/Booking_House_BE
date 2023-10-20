@@ -1,5 +1,6 @@
 package com.booking_house_be.controller;
 
+import com.booking_house_be.dto.BookingDto;
 import com.booking_house_be.dto.SearchRequest;
 import com.booking_house_be.entity.Booking;
 import com.booking_house_be.entity.House;
@@ -142,6 +143,23 @@ public class BookingController {
         Sort sort = Sort.by(Sort.Order.desc(sortBy));
         pageable = PageRequest.of(page, size, sort);
         return new ResponseEntity<>(bookingService.getByIdAccount(pageable, idAccount), HttpStatus.OK);
+    }
+
+    @PostMapping("/getByIdAccount/{idAccount}")
+    public ResponseEntity<?> getHistoryRentalAccount(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value = "size", defaultValue = "5") int size,
+                                                     @PathVariable int idAccount
+            , @RequestBody BookingDto bookingDto) {
+        Pageable pageable;
+        String sortBy = "create_at";
+        Sort sort = Sort.by(Sort.Order.desc(sortBy));
+        pageable = PageRequest.of(page, size, sort);
+        return new ResponseEntity<>(bookingService.getRentalHistoryIdAccount(pageable
+                , idAccount
+                , bookingDto.getHouseName()
+                , bookingDto.getStartTime()
+                , bookingDto.getEndTime()
+                , bookingDto.getStatus()), HttpStatus.OK);
     }
 
     @PostMapping("/cancel-booking/{id}")
