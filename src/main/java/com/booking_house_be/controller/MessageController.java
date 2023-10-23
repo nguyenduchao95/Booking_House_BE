@@ -1,7 +1,9 @@
 package com.booking_house_be.controller;
 
+import com.booking_house_be.entity.Account;
 import com.booking_house_be.entity.Message;
 import com.booking_house_be.entity.Notification;
+import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 public class MessageController {
@@ -17,6 +21,8 @@ public class MessageController {
     private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
     private IMessageService messageService;
+    @Autowired
+    private IAccountService accountService;
 
     @MessageMapping("/chat")
     public void chat(Message message) {
@@ -32,8 +38,17 @@ public class MessageController {
 
     @MessageMapping("/notify")
     public void notify(Notification notification) {
-        String destinationReceive = "/notify/" + notification.getReceiver().getId();
-        simpMessagingTemplate.convertAndSend(destinationReceive, notification);
+            String destinationReceive = "/notify/" + notification.getReceiver().getId();
+            simpMessagingTemplate.convertAndSend(destinationReceive, notification);
+    }
+
+    @MessageMapping("/admin")
+    public void acceptOwner(Notification notification) {
+        List<Account> list = accountService.findAdmins();
+        for (Account account : list) {
+            String destinationReceive = "/admin/" + account.getId();
+            simpMessagingTemplate.convertAndSend(destinationReceive, notification);
+        }
     }
 
     @GetMapping("/api/messages/{senderId}/{receiverId}")

@@ -130,7 +130,7 @@ public class AccountController {
     @PostMapping("/agreeRegister")
     public ResponseEntity<?> agreeRegister(@RequestBody Owner owner) {
         ownerService.save(owner);
-        Role role = roleRepo.findById(3);
+        Role role = roleRepo.findByName("ROLE_OWNER");
         Account account = new Account(owner.getAccount().getId(), owner.getAccount().getUsername(), owner.getAccount().getPassword(), owner.getFirstname(), owner.getLastname(), owner.getAddress(), owner.getProvince(),
                 owner.getDistrict(), owner.getWard(), owner.getEmail(), owner.getPhone(), owner.getAvatar(), owner.getAccount().getWallet(), owner.getAccount().getStatus(), role);
         accountService.save(account);
