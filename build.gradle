@@ -37,6 +37,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.github.librepdf/openpdf
 	implementation group: 'com.github.librepdf', name: 'openpdf', version: '1.3.30'
 
+	//OAuth2
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '2.7.16'
+
 }
 
 tasks.named('test') {

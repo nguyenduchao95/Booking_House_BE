@@ -1,6 +1,7 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Account;
+import com.booking_house_be.entity.Role;
 import com.booking_house_be.entity.dto.AccountToken;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.JwtService;
@@ -9,6 +10,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -23,6 +27,8 @@ public class LoginController {
 
     @Autowired
     IAccountService accountService;
+    @Autowired
+    ClientRegistrationRepository clientRegistrationRepository;
 
     @GetMapping("/test")
     public String test() {
@@ -38,7 +44,7 @@ public class LoginController {
         account = accountService.getAccountLogin(account.getUsername(), account.getPassword());
         String token = jwtService.createToken(authentication);
         AccountToken accountToken = new AccountToken(account.getId(), account.getUsername(), token, account.getFirstname(), account.getLastname(), account.getAddress(),
-                                                   account.getEmail(), account.getPhone(), account.getAvatar(), account.getWallet(), account.getStatus(), account.getRole() , account.getProvince() , account.getDistrict()  ,account.getWard());
+                account.getEmail(), account.getPhone(), account.getAvatar(), account.getWallet(), account.getStatus(), account.getRole(), account.getProvince(), account.getDistrict(), account.getWard());
         return accountToken;
     }
 
@@ -51,4 +57,5 @@ public class LoginController {
     public boolean checkEmail(@RequestParam("email") String email) {
         return accountService.getAccountByEmail(email) != null;
     }
+
 }
