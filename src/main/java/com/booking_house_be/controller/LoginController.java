@@ -1,7 +1,6 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Account;
-import com.booking_house_be.entity.Role;
 import com.booking_house_be.entity.dto.AccountToken;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.JwtService;
@@ -10,9 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
