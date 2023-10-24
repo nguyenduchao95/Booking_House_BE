@@ -47,7 +47,7 @@ public class AccountController {
         Pageable pageable;
         pageable = PageRequest.of(page, size);
         if (!status.equals("ALL") && !nameSearch.trim().equals(""))
-            return accountService.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
+            return accountService.findOwner(roleName, nameSearch, status, pageable);
         else if (!status.equals("ALL"))
             return accountService.findByRoleNameAndStatus(roleName, status, pageable);
         else if (!nameSearch.trim().equals(""))
@@ -162,6 +162,7 @@ public class AccountController {
     }
     @GetMapping("/getUser")
     public Page<Account> getUser(@RequestParam("roleName") String roleName,
+                                 @RequestParam("status") String status,
                                        @RequestParam("nameSearch") String nameSearch,
                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                        @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -169,7 +170,7 @@ public class AccountController {
         String sortBy = "id";
         Sort sort = Sort.by(Sort.Order.asc(sortBy));
         pageable = PageRequest.of(page, size , sort);
-        return  accountService.findRoleUser(roleName , nameSearch , pageable);
+        return  accountService.findRoleUser(roleName , nameSearch , status , pageable);
     }
 
 

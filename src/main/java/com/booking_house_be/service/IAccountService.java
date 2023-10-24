@@ -42,10 +42,11 @@ public interface IAccountService extends UserDetailsService {
     Page<Account> findByRoleNameAndStatus(String roleName, String status, Pageable pageable);
 
 
-    Page<Account> findRoleUser( String roleName , String nameSearch , Pageable pageable);
+    Page<Account> findRoleUser( String roleName , String nameSearch , String status , Pageable pageable);
 
     List<AccountAndMessageDto> listUserAndUnreadMessage(int userId);
     List<Account> findAllByUsernameContainsAndNotAccountLogin(String username, int accountId);
 
     boolean checkBlockAccount(int accountId);
+    Page<Account> findOwner(String roleName,String nameSearch,String status, Pageable pageable);
 }
