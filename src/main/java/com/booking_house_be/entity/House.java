@@ -53,5 +53,6 @@ public class House {
         this.area = houseDto.getArea();
         this.thumbnail = houseDto.getThumbnail();
         this.owner = houseDto.getOwner();
+        this.status = houseDto.getStatus();
     }
 }
