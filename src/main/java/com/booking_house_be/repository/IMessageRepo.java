@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IMessageRepo extends JpaRepository<Message, Integer> {
     @Query("SELECT m from Message m WHERE m.sender.id = :senderId AND m.receiver.id = :receiverId" +
-            " OR m.sender.id = :receiverId AND m.receiver.id = :senderId")
+            " OR m.sender.id = :receiverId AND m.receiver.id = :senderId order by m.createAt")
     List<Message> findAllBySenderIdAndReceiverId(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
 
     @Query("SELECT COUNT(m) FROM Message m WHERE m.receiver.id = :receiverId AND m.status = false")
