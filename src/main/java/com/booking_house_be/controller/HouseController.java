@@ -100,7 +100,7 @@ public class HouseController {
         List<House> houses = new ArrayList<>();
         for (int i = 0; i < houseId.size(); i++) {
             houses.add(houseService.findById(houseId.get(i)));
-            if (i == 4) break;
+            if (i == 5) break;
         }
         return houses;
     }

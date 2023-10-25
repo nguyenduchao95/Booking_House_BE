@@ -22,16 +22,15 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
 
     Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
-    Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
+  //  Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
     Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch,String status, Pageable pageable);
 
     Page<Account> findByRoleNameAndStatus(String roleName,String status, Pageable pageable);
 
-    Page<Account> findByLastnameContainingAndRoleName(String nameSearch, String roleName, Pageable pageable);
     @Query(nativeQuery = true , value = "select a.* from account a" +
             " join role r on a.role_id = r.id where ((a.firstname like  CONCAT('%' , :nameSearch , '%')) or (a.lastname like CONCAT('%' , :nameSearch , '%'))) " +
-            "and r.name = :roleName ")
-    Page<Account> findRoleUser(@Param("roleName") String roleName ,@Param("nameSearch") String nameSearch , Pageable pageable);
+            "and r.name = :roleName  and a.status like CONCAT('%' , :status , '%') ")
+    Page<Account> findRoleUser(@Param("roleName") String roleName ,@Param("nameSearch") String nameSearch,@Param("status") String status , Pageable pageable);
 
    @Query(
             nativeQuery = true,
@@ -46,4 +45,14 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
     List<Account> findAllByUsernameContainsAndNotAccountLogin(@Param("username") String username, @Param("accountId") int accountId);
 
     Account findByIdAndStatus(int id, String status);
+
+    @Query(nativeQuery = true , value = "select a.* from account a "  +
+            "             join role r on a.role_id = r.id where ((a.firstname like  CONCAT('%' , :nameSearch , '%')) or (a.lastname like CONCAT('%' , :nameSearch , '%'))) "  +
+            "            and r.name = :roleName and a.status like CONCAT('%' , :status , '%') ")
+    Page<Account> findOwner(@Param("roleName") String roleName,@Param("nameSearch") String nameSearch,@Param("status") String status, Pageable pageable);
+
+    @Query(nativeQuery = true , value = "select a.* from account a "  +
+            "             join role r on a.role_id = r.id where ((a.firstname like  CONCAT('%' , :nameSearch , '%')) or (a.lastname like CONCAT('%' , :nameSearch , '%'))) "  +
+            "            and r.name = :roleName ")
+    Page<Account> findByRoleNameAndUsernameContains(@Param("roleName") String roleName,@Param("nameSearch") String nameSearch, Pageable pageable);
 }

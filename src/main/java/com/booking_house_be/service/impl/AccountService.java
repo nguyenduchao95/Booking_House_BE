@@ -112,8 +112,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Page<Account> findRoleUser(String roleName, String nameSearch, Pageable pageable) {
-        return accountRepo.findRoleUser(roleName , nameSearch , pageable);
+    public Page<Account> findRoleUser(String roleName, String nameSearch , String status, Pageable pageable) {
+        return accountRepo.findRoleUser(roleName , nameSearch , status  ,pageable);
     }
 
     @Override
@@ -135,6 +135,10 @@ public class AccountService implements IAccountService {
     @Override
     public boolean checkBlockAccount(int accountId) {
         return accountRepo.findByIdAndStatus(accountId, "Bị khóa") != null;
+    }
+    @Override
+    public Page<Account> findOwner(String roleName,String nameSearch,String status, Pageable pageable){
+        return accountRepo.findOwner(roleName , nameSearch , status , pageable);
     }
 
 }

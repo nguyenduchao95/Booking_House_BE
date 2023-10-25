@@ -47,7 +47,7 @@ public class AccountController {
         Pageable pageable;
         pageable = PageRequest.of(page, size);
         if (!status.equals("ALL") && !nameSearch.trim().equals(""))
-            return accountService.findByRoleNameAndUsernameContainsAndStatus(roleName, nameSearch, status, pageable);
+            return accountService.findOwner(roleName, nameSearch, status, pageable);
         else if (!status.equals("ALL"))
             return accountService.findByRoleNameAndStatus(roleName, status, pageable);
         else if (!nameSearch.trim().equals(""))
@@ -131,7 +131,7 @@ public class AccountController {
     @PostMapping("/agreeRegister")
     public ResponseEntity<?> agreeRegister(@RequestBody Owner owner) {
         ownerService.save(owner);
-        Role role = roleRepo.findById(3);
+        Role role = roleRepo.findByName("ROLE_OWNER");
         Account account = new Account(owner.getAccount().getId(), owner.getAccount().getUsername(), owner.getAccount().getPassword(), owner.getFirstname(), owner.getLastname(), owner.getAddress(), owner.getProvince(),
                 owner.getDistrict(), owner.getWard(), owner.getEmail(), owner.getPhone(), owner.getAvatar(), owner.getAccount().getWallet(), owner.getAccount().getStatus(), role);
         accountService.save(account);
@@ -163,6 +163,7 @@ public class AccountController {
     }
     @GetMapping("/getUser")
     public Page<Account> getUser(@RequestParam("roleName") String roleName,
+                                 @RequestParam("status") String status,
                                        @RequestParam("nameSearch") String nameSearch,
                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                        @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -170,7 +171,7 @@ public class AccountController {
         String sortBy = "id";
         Sort sort = Sort.by(Sort.Order.asc(sortBy));
         pageable = PageRequest.of(page, size , sort);
-        return  accountService.findRoleUser(roleName , nameSearch , pageable);
+        return  accountService.findRoleUser(roleName , nameSearch , status , pageable);
     }
 
 

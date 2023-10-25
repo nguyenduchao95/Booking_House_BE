@@ -29,4 +29,14 @@ public class Account {
     private String status;
     @ManyToOne
     private Role role;
+
+    public Account(String username, String password, String email, String phone, String avatar, String status, Role role){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.status = status;
+        this.role = role;
+    }
 }

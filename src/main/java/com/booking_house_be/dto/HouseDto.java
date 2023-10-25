@@ -28,5 +28,6 @@ public class HouseDto {
     private List<Image> imagesDelete;
     private Account owner;
     private LocalDate createAt;
+    private String status;
 }
 
