@@ -20,7 +20,7 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
 
     @Query(nativeQuery = true, value =
             "SELECT DAY(b.start_time) AS day," +
-                    " SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue FROM Booking b " +
+                    " SUM(CASE WHEN b.status = 'Đã trả phòng' THEN b.total ELSE 0 END) AS revenue FROM booking b " +
                     "LEFT JOIN house h ON h.id = b.house_id " +
                     "WHERE YEAR(b.end_time) = :year AND " +
                     "MONTH(b.start_time) = :month AND h.owner_id = :ownerId AND " +
@@ -54,8 +54,8 @@ public interface IBookingRepo extends JpaRepository<Booking, Integer> {
     SpendingDto getSpendingUser(@Param("idAccount") int idAccount);
 
 
-    @Query(value = "SELECT * FROM Booking b " +
-            "JOIN House h ON h.id = b.house_id " +
+    @Query(value = "SELECT * FROM booking b " +
+            "JOIN house h ON h.id = b.house_id " +
             "WHERE (:houseName IS NULL OR h.name LIKE CONCAT('%', :houseName, '%')) " +
             "AND ((:startTime IS NULL OR b.start_time >= :startTime) " +
             "AND (:endTime IS NULL OR  b.end_time <= :endTime)) " +

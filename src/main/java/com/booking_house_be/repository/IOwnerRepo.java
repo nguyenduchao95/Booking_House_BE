@@ -7,10 +7,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IOwnerRepo extends JpaRepository<Owner, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM Owner where account_id= :idAccount")
+    @Query(nativeQuery = true, value = "SELECT * FROM owner where account_id= :idAccount")
     Owner getOwnerByAccount(@Param("idAccount") int idAccount);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Owner where status= :status")
+    @Query(nativeQuery = true, value = "SELECT * FROM owner where status= :status")
     List<Owner> getAllByStatus(@Param("status") String status);
 
     Owner findOwnerById(int id);

@@ -15,14 +15,13 @@ public interface IAccountRepo extends JpaRepository<Account, Integer> {
 
     Account findByEmail(String email);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Account where username= :username and password= :password")
+    @Query(nativeQuery = true, value = "SELECT * FROM account where username= :username and password= :password")
     Account getAccountLogin(@Param("username") String username, @Param("password") String password);
 
     List<Account> findByRoleName(String name);
 
     Page<Account> findByLastnameContaining(String nameSearch, Pageable pageable);
     Page<Account> findAllByRoleName(String roleName, Pageable pageable);
-  //  Page<Account> findByRoleNameAndUsernameContains( String roleName,String nameSearch, Pageable pageable);
     Page<Account> findByRoleNameAndUsernameContainsAndStatus( String roleName,String nameSearch,String status, Pageable pageable);
 
     Page<Account> findByRoleNameAndStatus(String roleName,String status, Pageable pageable);

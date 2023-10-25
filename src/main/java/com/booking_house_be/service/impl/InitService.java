@@ -17,7 +17,7 @@ public class InitService implements IInitService {
     @Autowired
     private IAccountRepo accountRepo;
     @Override
-    public void init() {
+    public void initData() {
         Role user = roleRepo.save(new Role("ROLE_USER"));
         Role owner = roleRepo.save(new Role("ROLE_OWNER"));
         Role admin = roleRepo.save(new Role("ROLE_ADMIN"));
