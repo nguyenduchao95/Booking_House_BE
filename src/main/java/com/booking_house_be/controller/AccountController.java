@@ -52,6 +52,7 @@ public class AccountController {
             return accountService.findByRoleNameAndStatus(roleName, status, pageable);
         else if (!nameSearch.trim().equals(""))
             return accountService.findByRoleNameAndUsernameContains(roleName, nameSearch, pageable);
+
         else
             return accountService.findByRoleName(roleName, pageable);
     }
