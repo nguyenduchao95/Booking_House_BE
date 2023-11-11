@@ -1,7 +1,7 @@
 package com.booking_house_be.controller;
 
 import com.booking_house_be.entity.Account;
-import com.booking_house_be.entity.dto.AccountToken;
+import com.booking_house_be.dto.AccountToken;
 import com.booking_house_be.service.IAccountService;
 import com.booking_house_be.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;

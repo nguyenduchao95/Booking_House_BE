@@ -1,4 +1,4 @@
-package com.booking_house_be.entity.dto;
+package com.booking_house_be.dto;
 
 import com.booking_house_be.entity.Role;
 import lombok.AllArgsConstructor;

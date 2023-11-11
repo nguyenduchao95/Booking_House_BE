@@ -29,6 +29,7 @@ public class House {
     private double price;
     private int sale;
     private double area;
+    @Column(columnDefinition = "TEXT")
     private String thumbnail;
     private String status;
     private LocalDate createAt;
